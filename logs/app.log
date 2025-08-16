@@ -1,0 +1,30 @@
+2025-08-16 15:21:24 [INFO]: Middleware setup completed
+2025-08-16 15:21:24 [INFO]: Development test routes enabled
+2025-08-16 15:21:24 [INFO]: Routes setup completed
+2025-08-16 15:21:24 [INFO]: Error handling setup completed
+2025-08-16 15:21:24 [INFO]: Validating configuration...
+2025-08-16 15:21:24 [INFO]: Testing Jotform connection...
+2025-08-16 15:21:24 [INFO]: Jotform API request | {"method":"GET","url":"/form/your_form_id_here"}
+2025-08-16 15:21:25 [ERROR]: Jotform API response error Request failed with status code 404 | {"status":404,"url":"/form/your_form_id_here","data":{"responseCode":404,"message":"Requested URL (/form/your_form_id_here) is not available!","content":"","duration":"16.27ms","info":"https://api.jotform.com/docs"}}
+2025-08-16 15:21:25 [ERROR]: Failed to get form from Jotform | {"formId":"your_form_id_here","error":"Request failed with status code 404"}
+AxiosError: Request failed with status code 404
+    at settle (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/axios/dist/node/axios.cjs:2090:12)
+    at Unzip.handleStreamEnd (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/axios/dist/node/axios.cjs:3207:11)
+    at Unzip.emit (node:events:519:35)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+    at Axios.request (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/axios/dist/node/axios.cjs:4317:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async JotformService.getForm (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/services/jotformService.js:67:24)
+    at async JotformService.validateConnection (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/services/jotformService.js:244:22)
+    at async Server.validateConfiguration (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:215:29)
+    at async Server.start (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:153:7)
+2025-08-16 15:21:25 [WARN]: Jotform connection test failed | {"error":"Request failed with status code 404"}
+2025-08-16 15:21:25 [INFO]: Testing Bitrix24 connection...
+2025-08-16 15:21:25 [INFO]: Bitrix24 API request | {"method":"GET","url":"your_bitrix24_webhook_url_here/crm.contact.fields.json","dataKeys":[]}
+2025-08-16 15:21:25 [ERROR]: Bitrix24 API response error Invalid URL | {}
+2025-08-16 15:21:25 [ERROR]: Bitrix24 connection validation failed | {"error":"Invalid URL"}
+2025-08-16 15:21:25 [WARN]: Bitrix24 connection test failed | {"error":"Connection validation failed"}
+2025-08-16 15:21:25 [INFO]: Configuration validation completed
+2025-08-16 15:21:25 [INFO]: Server started successfully | {"port":"3000","env":"development","pid":62837,"nodeVersion":"v23.10.0"}
+2025-08-16 15:21:34 [INFO]: Received SIGINT, starting graceful shutdown...
