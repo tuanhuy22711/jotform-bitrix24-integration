@@ -32,3 +32,22 @@ AxiosError: Request failed with status code 404
     at async JotformService.validateConnection (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/services/jotformService.js:244:22)
     at async Server.validateConfiguration (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:220:29)
     at async Server.start (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:158:7)
+2025-08-16 16:50:25 [ERROR]: Webhook processing error | {"error":"createLead is not a function","duration":3}
+TypeError: createLead is not a function
+    at /Users/trantuanhuy/api/jotform-bitrix24-integration/src/routes/webhook.js:107:26
+    at Layer.handle [as handle_request] (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/express/lib/router/route.js:149:13)
+    at done (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/multer/lib/make-middleware.js:59:7)
+    at indicateDone (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/multer/lib/make-middleware.js:63:68)
+    at Multipart.<anonymous> (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/multer/lib/make-middleware.js:187:7)
+    at Multipart.emit (node:events:507:28)
+    at emitCloseNT (node:internal/streams/destroy:148:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+2025-08-16 16:52:17 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 16:52:17 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311471362517612532"}
+2025-08-16 16:52:17 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311471362517612532"}
+2025-08-16 16:52:17 [ERROR]: Failed to create lead | {"submissionId":"6311471362517612532","error":"Request failed with status code 401","duration":483}
+2025-08-16 16:53:11 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 16:53:12 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311471902515653162"}
+2025-08-16 16:53:12 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311471902515653162"}
+2025-08-16 16:53:12 [ERROR]: Failed to create lead | {"submissionId":"6311471902515653162","error":"Request failed with status code 401","duration":655}

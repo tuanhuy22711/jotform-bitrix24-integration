@@ -7,6 +7,7 @@ const { requestLogger, errorHandler, notFound } = require('./middleware/common')
 // Import routes
 const healthRoutes = require('./routes/health');
 const webhookRoutes = require('./routes/webhook');
+const oauthRoutes = require('./routes/oauth');
 
 class Server {
   constructor() {
@@ -32,6 +33,9 @@ class Server {
     // Health routes
     this.app.use('/', healthRoutes);
     
+    // OAuth routes
+    this.app.use('/oauth', oauthRoutes);
+    
     // Webhook routes
     this.app.use('/webhook', webhookRoutes);
     
@@ -43,6 +47,7 @@ class Server {
         description: 'Simple API for integrating Jotform submissions with Bitrix24 CRM',
         endpoints: {
           health: ['GET /health', 'GET /ping'],
+          oauth: ['GET /oauth/authorize', 'GET /oauth/callback', 'GET /oauth/status'],
           webhook: ['POST /webhook/jotform'],
           test: ['GET /webhook/test']
         },
@@ -68,6 +73,7 @@ class Server {
 📡 Server: http://localhost:${this.port}
 🌍 Environment: ${process.env.NODE_ENV || 'development'}
 📊 Health: http://localhost:${this.port}/health
+🔐 OAuth: http://localhost:${this.port}/oauth/authorize
 🎯 Webhook: http://localhost:${this.port}/webhook/jotform
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
       `);

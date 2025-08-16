@@ -98,3 +98,52 @@ AxiosError: Request failed with status code 404
 2025-08-16 16:23:06 [INFO]: Server running on port 3000
 2025-08-16 16:23:06 [INFO]: Environment:
 2025-08-16 16:23:14 [INFO]: SIGINT received, shutting down gracefully
+2025-08-16 16:44:30 [INFO]: Server running on port 3000
+2025-08-16 16:44:30 [INFO]: Environment:
+2025-08-16 16:50:25 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-16 16:50:25 [INFO]: Jotform webhook received | {"submissionID":"6311470242515337047","hasRawRequest":true,"ip":"::1"}
+2025-08-16 16:50:25 [INFO]: Contact data parsed | {"submissionId":"6311470242515337047","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-16 16:50:25 [ERROR]: Webhook processing error | {"error":"createLead is not a function","duration":3}
+TypeError: createLead is not a function
+    at /Users/trantuanhuy/api/jotform-bitrix24-integration/src/routes/webhook.js:107:26
+    at Layer.handle [as handle_request] (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/express/lib/router/route.js:149:13)
+    at done (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/multer/lib/make-middleware.js:59:7)
+    at indicateDone (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/multer/lib/make-middleware.js:63:68)
+    at Multipart.<anonymous> (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/multer/lib/make-middleware.js:187:7)
+    at Multipart.emit (node:events:507:28)
+    at emitCloseNT (node:internal/streams/destroy:148:10)
+    at process.processTicksAndRejections (node:internal/process/task_queues:89:21)
+2025-08-16 16:50:25 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":18,"ip":"::1"}
+2025-08-16 16:52:05 [INFO]: SIGINT received, shutting down gracefully
+2025-08-16 16:52:06 [INFO]: Server running on port 3000
+2025-08-16 16:52:06 [INFO]: Environment:
+2025-08-16 16:52:17 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-16 16:52:17 [INFO]: Jotform webhook received | {"submissionID":"6311471362517612532","hasRawRequest":true,"ip":"::1"}
+2025-08-16 16:52:17 [INFO]: Contact data parsed | {"submissionId":"6311471362517612532","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-16 16:52:17 [INFO]: Creating Bitrix24 lead | {"submissionId":"6311471362517612532","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-16 16:52:17 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 16:52:17 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-16 16:52:17 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6311471362517612532"}
+2025-08-16 16:52:17 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311471362517612532"}
+2025-08-16 16:52:17 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311471362517612532"}
+2025-08-16 16:52:17 [ERROR]: Failed to create lead | {"submissionId":"6311471362517612532","error":"Request failed with status code 401","duration":483}
+2025-08-16 16:52:17 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":494,"ip":"::1"}
+2025-08-16 16:53:11 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-16 16:53:11 [INFO]: Jotform webhook received | {"submissionID":"6311471902515653162","hasRawRequest":true,"ip":"::1"}
+2025-08-16 16:53:11 [INFO]: Contact data parsed | {"submissionId":"6311471902515653162","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-16 16:53:11 [INFO]: Creating Bitrix24 lead | {"submissionId":"6311471902515653162","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-16 16:53:11 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 16:53:11 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-16 16:53:11 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6311471902515653162"}
+2025-08-16 16:53:12 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311471902515653162"}
+2025-08-16 16:53:12 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311471902515653162"}
+2025-08-16 16:53:12 [ERROR]: Failed to create lead | {"submissionId":"6311471902515653162","error":"Request failed with status code 401","duration":655}
+2025-08-16 16:53:12 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":661,"ip":"::1"}
+2025-08-16 16:54:34 [INFO]: SIGINT received, shutting down gracefully
+2025-08-16 16:54:35 [INFO]: Server running on port 3000
+2025-08-16 16:54:35 [INFO]: Environment:
+2025-08-16 16:55:05 [INFO]: SIGINT received, shutting down gracefully
+2025-08-16 16:55:06 [INFO]: Server running on port 3000
+2025-08-16 16:55:06 [INFO]: Environment:
+2025-08-16 16:57:52 [INFO]: SIGINT received, shutting down gracefully

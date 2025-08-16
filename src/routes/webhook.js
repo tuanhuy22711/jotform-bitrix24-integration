@@ -1,10 +1,11 @@
 const express = require('express');
 const multer = require('multer');
 const logger = require('../utils/logger');
-const { createLead } = require('../services/bitrix24');
+const Bitrix24Service = require('../services/bitrix24');
 
 const router = express.Router();
 const upload = multer(); // For parsing multipart/form-data
+const bitrix24Service = new Bitrix24Service(); // Tạo instance của service
 
 /**
  * Parse Jotform data from webhook
@@ -104,7 +105,7 @@ router.post('/jotform', upload.none(), async (req, res) => {
     }
 
     // Tạo lead trong Bitrix24
-    const result = await createLead(contactData);
+    const result = await bitrix24Service.createLead(contactData);
     const duration = Date.now() - startTime;
 
     if (result.success) {
@@ -154,6 +155,39 @@ router.post('/jotform', upload.none(), async (req, res) => {
 });
 
 /**
+ * GET /webhook/test - Test Bitrix24 connection
+ */
+router.get('/test', async (req, res) => {
+  try {
+    logger.info('Testing Bitrix24 connection');
+
+    const result = await bitrix24Service.testConnection();
+
+    if (result.success) {
+      return res.status(200).json({
+        success: true,
+        message: 'Bitrix24 connection successful',
+        data: result
+      });
+    } else {
+      return res.status(500).json({
+        success: false,
+        error: 'Bitrix24 connection failed',
+        details: result
+      });
+    }
+
+  } catch (error) {
+    logger.error('Connection test error', { error: error.message });
+    
+    return res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+/**
  * POST /webhook/test
  * Test endpoint for development
  */
@@ -171,7 +205,7 @@ router.post('/test', async (req, res) => {
     };
 
     // Test tạo lead
-    const result = await createLead(testContactData);
+    const result = await bitrix24Service.createLead(testContactData);
 
     if (result.success) {
       return res.status(200).json({
