@@ -18,28 +18,49 @@ class WebhookController {
     const startTime = Date.now();
     
     try {
-      logger.logWebhook('Jotform', 'submission', req.body, req.headers);
+      // Log chi tiết toàn bộ request
+      logger.info('=== WEBHOOK REQUEST DEBUG ===', {
+        method: req.method,
+        url: req.url,
+        headers: req.headers,
+        body: req.body,
+        submissionID: req.body.submissionID,
+        hasRawRequest: !!req.body.rawRequest,
+        contentType: req.get('Content-Type')
+      });
       
-      // Validate webhook payload
-      const validationResult = this.validateWebhookPayload(req.body);
-      if (!validationResult.isValid) {
-        logger.error('Invalid webhook payload', { 
-          errors: validationResult.errors,
-          body: req.body 
-        });
-        
-        return res.status(400).json({
-          success: false,
-          error: 'Invalid webhook payload',
-          details: validationResult.errors
-        });
+      // Lấy submission ID trực tiếp từ req.body
+      const submissionId = req.body.submissionID;
+      
+      // Parse rawRequest để lấy form data
+      let formData = {};
+      if (req.body.rawRequest) {
+        try {
+          formData = JSON.parse(req.body.rawRequest);
+          logger.info('=== PARSED FORM DATA ===', {
+            submissionId,
+            formData,
+            hasQ3Name: !!formData.q3_name,
+            hasQ4Phone: !!formData.q4_phoneNumber,
+            hasQ5Email: !!formData.q5_email
+          });
+        } catch (parseError) {
+          logger.error('Failed to parse rawRequest JSON', {
+            rawRequest: req.body.rawRequest,
+            error: parseError.message
+          });
+          return res.status(400).json({
+            success: false,
+            error: 'Invalid JSON in rawRequest field'
+          });
+        }
       }
-
-      // Extract submission data
-      const submissionId = req.body.submissionID || req.body.submission_id;
       
       if (!submissionId) {
-        logger.error('Missing submission ID in webhook', { body: req.body });
+        logger.error('Missing submission ID in webhook', { 
+          body: req.body,
+          bodyKeys: Object.keys(req.body || {})
+        });
         return res.status(400).json({
           success: false,
           error: 'Missing submission ID'
@@ -48,28 +69,22 @@ class WebhookController {
 
       logger.info('Processing Jotform webhook', { submissionId });
 
-      // Get full submission data from Jotform API
-      const submissionResult = await this.jotformService.getSubmission(submissionId);
+      // Parse contact data trực tiếp từ form data thay vì call API
+      const contactData = this.parseJotformData(formData, submissionId);
       
-      if (!submissionResult.success) {
-        logger.error('Failed to get submission from Jotform', {
-          submissionId,
-          error: submissionResult.error
-        });
-        
-        return res.status(500).json({
-          success: false,
-          error: 'Failed to retrieve submission data'
-        });
-      }
-
-      // Parse contact data from submission
-      const contactData = this.jotformService.parseSubmissionData(submissionResult.data);
+      logger.info('=== CONTACT DATA PARSED ===', {
+        submissionId,
+        contactData,
+        hasFullName: !!contactData.fullName,
+        hasEmail: !!contactData.email,
+        hasPhone: !!contactData.phone
+      });
       
       if (!contactData.fullName && !contactData.email && !contactData.phone) {
         logger.warn('No valid contact data found in submission', {
           submissionId,
-          contactData
+          contactData,
+          formData
         });
         
         return res.status(400).json({
@@ -86,17 +101,15 @@ class WebhookController {
       if (bitrixResult.success) {
         logger.info('Webhook processed successfully', {
           submissionId,
-          contactId: bitrixResult.contactId,
           leadId: bitrixResult.leadId,
           duration
         });
         
         return res.status(200).json({
           success: true,
-          message: 'Webhook processed successfully',
+          message: 'Webhook processed successfully - Lead created in Bitrix24',
           data: {
             submissionId,
-            contactId: bitrixResult.contactId,
             leadId: bitrixResult.leadId,
             processingTime: duration
           }
@@ -110,7 +123,7 @@ class WebhookController {
         
         return res.status(500).json({
           success: false,
-          error: 'Failed to process contact in CRM',
+          error: 'Failed to create lead in Bitrix24',
           details: bitrixResult.error
         });
       }
@@ -140,83 +153,49 @@ class WebhookController {
    */
   async processContactInBitrix24(contactData) {
     try {
-      let contactId = null;
       let leadId = null;
-      let isNewContact = false;
 
-      // First, search for existing contact
-      if (contactData.email || contactData.phone) {
-        const searchResult = await this.bitrix24Service.searchContact({
-          email: contactData.email,
-          phone: contactData.phone
-        });
+      // Tạo lead trong Bitrix24 (đơn giản và hiệu quả)
+      logger.info('Creating lead in Bitrix24 for submission', {
+        submissionId: contactData.submissionId,
+        fullName: contactData.fullName,
+        email: contactData.email,
+        phone: contactData.phone
+      });
 
-        if (searchResult.success && searchResult.found) {
-          // Update existing contact
-          const existingContact = searchResult.contacts[0];
-          contactId = existingContact.ID;
-          
-          logger.info('Found existing contact, updating', {
-            contactId,
-            fullName: contactData.fullName
-          });
-          
-          const updateResult = await this.bitrix24Service.updateContact(contactId, contactData);
-          
-          if (!updateResult.success) {
-            logger.error('Failed to update existing contact', {
-              contactId,
-              error: updateResult.error
-            });
-            // Continue to create lead even if update fails
-          }
-        } else {
-          // Create new contact
-          isNewContact = true;
-          const createResult = await this.bitrix24Service.createContact(contactData);
-          
-          if (createResult.success) {
-            contactId = createResult.contactId;
-            logger.info('Created new contact', { contactId });
-          } else {
-            logger.error('Failed to create contact', {
-              error: createResult.error
-            });
-            // Continue to create lead even if contact creation fails
-          }
-        }
-      }
-
-      // Always create a lead for new submissions
       const leadResult = await this.bitrix24Service.createLead(contactData);
       
       if (leadResult.success) {
         leadId = leadResult.leadId;
-        logger.info('Created lead', { leadId, contactId });
-      } else {
-        logger.error('Failed to create lead', {
-          error: leadResult.error
+        logger.info('Lead created successfully', { 
+          leadId, 
+          submissionId: contactData.submissionId,
+          fullName: contactData.fullName
         });
-      }
-
-      // Return success if at least one operation succeeded
-      if (contactId || leadId) {
+        
         return {
           success: true,
-          contactId,
           leadId,
-          isNewContact
+          message: 'Lead created successfully in Bitrix24'
         };
       } else {
+        logger.error('Failed to create lead', {
+          submissionId: contactData.submissionId,
+          error: leadResult.error,
+          details: leadResult.details
+        });
+        
         return {
           success: false,
-          error: 'Failed to create both contact and lead'
+          error: leadResult.error,
+          details: leadResult.details
         };
       }
 
     } catch (error) {
       logger.error('Error processing contact in Bitrix24', {
         error: error.message,
+        submissionId: contactData.submissionId,
         contactData: {
           fullName: contactData.fullName,
           email: contactData.email,
@@ -244,10 +223,8 @@ class WebhookController {
       return { isValid: false, errors };
     }
     
-    // Check for required fields
-    if (!payload.submissionID && !payload.submission_id) {
-      errors.push('Missing submission ID');
-    }
+    // For Jotform, we don't require submissionID in the form data
+    // as it comes in the top-level webhook payload
     
     return {
       isValid: errors.length === 0,
@@ -332,7 +309,12 @@ class WebhookController {
    */
   async testWebhook(req, res) {
     try {
-      logger.info('Test webhook called', { body: req.body });
+      logger.info('=== TEST WEBHOOK DEBUG ===', { 
+        body: req.body,
+        headers: req.headers,
+        method: req.method,
+        url: req.url
+      });
       
       // Create test submission data
       const testData = {
@@ -345,9 +327,16 @@ class WebhookController {
         created_at: new Date().toISOString()
       };
       
+      logger.info('=== TEST DATA CREATED ===', { testData });
+      
       // Process test data
       const contactData = this.jotformService.parseSubmissionData(testData);
+      
+      logger.info('=== TEST CONTACT DATA PARSED ===', { contactData });
+      
       const result = await this.processContactInBitrix24(contactData);
+      
+      logger.info('=== TEST BITRIX24 RESULT ===', { result });
       
       return res.status(200).json({
         success: true,
@@ -363,6 +352,77 @@ class WebhookController {
         success: false,
         error: error.message
       });
+    }
+  }
+
+  /**
+   * Parse Jotform data directly from webhook
+   * @param {Object} formData - Form data from rawRequest
+   * @param {string} submissionId - Submission ID
+   * @returns {Object} Parsed contact data
+   */
+  parseJotformData(formData, submissionId) {
+    try {
+      const contactData = {
+        fullName: '',
+        phone: '',
+        email: '',
+        submissionId: submissionId,
+        submittedAt: formData.submitDate ? new Date(parseInt(formData.submitDate)).toISOString() : new Date().toISOString()
+      };
+
+      // Parse name from q3_name
+      if (formData.q3_name) {
+        const nameObj = formData.q3_name;
+        if (typeof nameObj === 'object') {
+          const firstName = nameObj.first || '';
+          const lastName = nameObj.last || '';
+          contactData.fullName = `${firstName} ${lastName}`.trim();
+        } else {
+          contactData.fullName = nameObj.toString();
+        }
+      }
+
+      // Parse phone from q4_phoneNumber
+      if (formData.q4_phoneNumber) {
+        const phoneObj = formData.q4_phoneNumber;
+        if (typeof phoneObj === 'object') {
+          contactData.phone = phoneObj.full || phoneObj.area + phoneObj.phone || '';
+        } else {
+          contactData.phone = phoneObj.toString();
+        }
+      }
+
+      // Parse email from q5_email
+      if (formData.q5_email) {
+        contactData.email = formData.q5_email.toString();
+      }
+
+      logger.info('Parsed Jotform contact data', {
+        submissionId,
+        contactData,
+        originalFormData: {
+          q3_name: formData.q3_name,
+          q4_phoneNumber: formData.q4_phoneNumber,
+          q5_email: formData.q5_email
+        }
+      });
+
+      return contactData;
+    } catch (error) {
+      logger.error('Failed to parse Jotform data', {
+        submissionId,
+        formData,
+        error: error.message
+      });
+      
+      return {
+        fullName: '',
+        phone: '',
+        email: '',
+        submissionId: submissionId,
+        submittedAt: new Date().toISOString()
+      };
     }
   }
 }

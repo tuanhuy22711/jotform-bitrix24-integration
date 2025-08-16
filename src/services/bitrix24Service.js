@@ -64,11 +64,31 @@ class Bitrix24Service {
       const startTime = Date.now();
       
       // Map contact data to Bitrix24 fields
-      const bitrixFields = this.mapContactFields(contactData);
+      const bitrixFields = {
+        NAME: this.extractFirstName(contactData.fullName),
+        LAST_NAME: this.extractLastName(contactData.fullName),
+        SOURCE_ID: 'WEB',
+        COMMENTS: `Đã gửi qua Jotform vào ${new Date(contactData.submittedAt).toLocaleString('vi-VN')}\nSubmission ID: ${contactData.submissionId}`
+      };
       
-      const url = `${this.restUrl}/crm.contact.add.json`;
+      // Add contact methods theo format Bitrix24
+      if (contactData.email) {
+        bitrixFields['EMAIL'] = [{
+          VALUE: contactData.email,
+          VALUE_TYPE: 'WORK'
+        }];
+      }
+      
+      if (contactData.phone) {
+        bitrixFields['PHONE'] = [{
+          VALUE: contactData.phone,
+          VALUE_TYPE: 'WORK'
+        }];
+      }
+      
+      const url = `${this.restUrl}crm.contact.add.json`;
       const payload = {
-        fields: bitrixFields
+        FIELDS: bitrixFields
       };
       
       logger.info('Creating contact in Bitrix24', {
@@ -108,7 +128,8 @@ class Bitrix24Service {
           phone: contactData.phone
         },
         error: error.message,
-        stack: error.stack
+        stack: error.stack,
+        response: error.response?.data
       });
       
       return {
@@ -251,29 +272,40 @@ class Bitrix24Service {
       const startTime = Date.now();
       
       const bitrixFields = {
-        TITLE: `Lead from Jotform - ${contactData.fullName}`,
+        TITLE: `Lead từ Jotform - ${contactData.fullName}`,
         NAME: this.extractFirstName(contactData.fullName),
         LAST_NAME: this.extractLastName(contactData.fullName),
         SOURCE_ID: 'WEB',
         STATUS_ID: 'NEW',
-        COMMENTS: `Submitted via Jotform on ${new Date(contactData.submittedAt).toLocaleString()}\nSubmission ID: ${contactData.submissionId}`
+        COMMENTS: `Đã gửi qua Jotform vào ${new Date(contactData.submittedAt).toLocaleString('vi-VN')}\nSubmission ID: ${contactData.submissionId}`
       };
       
-      // Add contact methods
+      // Add contact methods theo format Bitrix24
       if (contactData.email) {
-        bitrixFields.EMAIL = [{ VALUE: contactData.email, VALUE_TYPE: 'WORK' }];
+        bitrixFields['EMAIL'] = [{
+          VALUE: contactData.email,
+          VALUE_TYPE: 'WORK'
+        }];
       }
       
       if (contactData.phone) {
-        bitrixFields.PHONE = [{ VALUE: contactData.phone, VALUE_TYPE: 'WORK' }];
+        bitrixFields['PHONE'] = [{
+          VALUE: contactData.phone,
+          VALUE_TYPE: 'WORK'
+        }];
       }
       
-      const url = `${this.restUrl}/crm.lead.add.json`;
-      const payload = { fields: bitrixFields };
+      const url = `${this.restUrl}crm.lead.add.json`;
+      const payload = {
+        FIELDS: bitrixFields
+      };
       
       logger.info('Creating lead in Bitrix24', {
         title: bitrixFields.TITLE,
-        fullName: contactData.fullName
+        fullName: contactData.fullName,
+        email: contactData.email,
+        phone: contactData.phone,
+        url
       });
       
       const response = await this.client.post(url, payload);
@@ -286,7 +318,8 @@ class Bitrix24Service {
         
         logger.info('Lead created successfully in Bitrix24', {
           leadId,
-          fullName: contactData.fullName
+          fullName: contactData.fullName,
+          submissionId: contactData.submissionId
         });
         
         return {
@@ -303,7 +336,8 @@ class Bitrix24Service {
           fullName: contactData.fullName,
           email: contactData.email
         },
-        error: error.message
+        error: error.message,
+        response: error.response?.data
       });
       
       return {
@@ -373,7 +407,7 @@ class Bitrix24Service {
         };
       }
 
-      const url = `${this.restUrl}/crm.contact.fields.json`;
+      const url = `${this.restUrl}crm.lead.fields.json`;
       const response = await this.client.get(url);
       
       if (response.data && response.data.result) {
@@ -392,12 +426,14 @@ class Bitrix24Service {
       }
     } catch (error) {
       logger.error('Bitrix24 connection validation failed', {
-        error: error.message
+        error: error.message,
+        response: error.response?.data
       });
       
       return {
         success: false,
-        error: 'Connection validation failed'
+        error: 'Connection validation failed',
+        details: error.response?.data
       };
     }
   }

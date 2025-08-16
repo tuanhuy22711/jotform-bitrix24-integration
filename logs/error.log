@@ -1,5 +1,8 @@
-2025-08-16 15:21:25 [ERROR]: Jotform API response error Request failed with status code 404 | {"status":404,"url":"/form/your_form_id_here","data":{"responseCode":404,"message":"Requested URL (/form/your_form_id_here) is not available!","content":"","duration":"16.27ms","info":"https://api.jotform.com/docs"}}
-2025-08-16 15:21:25 [ERROR]: Failed to get form from Jotform | {"formId":"your_form_id_here","error":"Request failed with status code 404"}
+2025-08-16 15:50:13 [ERROR]: Invalid webhook payload | {"errors":["Missing submission ID"],"body":{}}
+2025-08-16 15:50:41 [ERROR]: Invalid webhook payload | {"errors":["Missing submission ID"],"body":{}}
+2025-08-16 15:51:03 [ERROR]: Invalid webhook payload | {"errors":["Missing submission ID"],"body":{}}
+2025-08-16 15:59:54 [ERROR]: Jotform API response error Request failed with status code 404 | {"status":404,"url":"/form/your_form_id_here","data":{"responseCode":404,"message":"Requested URL (/form/your_form_id_here) is not available!","content":"","duration":"29.48ms","info":"https://api.jotform.com/docs"}}
+2025-08-16 15:59:54 [ERROR]: Failed to get form from Jotform | {"formId":"your_form_id_here","error":"Request failed with status code 404"}
 AxiosError: Request failed with status code 404
     at settle (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/axios/dist/node/axios.cjs:2090:12)
     at Unzip.handleStreamEnd (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/axios/dist/node/axios.cjs:3207:11)
@@ -10,7 +13,22 @@ AxiosError: Request failed with status code 404
     at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
     at async JotformService.getForm (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/services/jotformService.js:67:24)
     at async JotformService.validateConnection (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/services/jotformService.js:244:22)
-    at async Server.validateConfiguration (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:215:29)
-    at async Server.start (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:153:7)
-2025-08-16 15:21:25 [ERROR]: Bitrix24 API response error Invalid URL | {}
-2025-08-16 15:21:25 [ERROR]: Bitrix24 connection validation failed | {"error":"Invalid URL"}
+    at async Server.validateConfiguration (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:220:29)
+    at async Server.start (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:158:7)
+2025-08-16 15:59:54 [ERROR]: Bitrix24 API response error Invalid URL | {}
+2025-08-16 15:59:54 [ERROR]: Bitrix24 connection validation failed | {"error":"Invalid URL"}
+2025-08-16 16:00:45 [ERROR]: Invalid webhook payload | {"errors":["Missing submission ID"],"webhookData":{"slug":"submit/252271255656055","jsExecutionTracker":"build-date-1755334321381=>init-started:1755334321593=>validator-called:1755334321595=>validator-mounted-false:1755334321595=>init-complete:1755334321596=>interval-complete:1755334342333=>onsubmit-fired:1755334843524=>observerSubmitHandler_received-submit-event:1755334843529=>submit-validation-passed:1755334843534=>observerSubmitHandler_validation-passed-submitting-form:1755334843538","submitSource":"form","submitDate":"1755334843538","buildDate":"1755334321381","uploadServerUrl":"https://upload.jotform.com/upload","eventObserver":"1","q3_name":{"first":"Trần","last":"Huy"},"q4_phoneNumber":{"full":"(097) 828-1697"},"q5_email":"tuanhuy227@gmail.com","event_id":"1755334321593_252271255656055_gTAshkM","timeToSubmit":"20","validatedNewRequiredFieldIDs":"{\"new\":1,\"id_3\":\"Hu\",\"id_4\":\"(0\",\"id_5\":\"tu\"}","path":"/submit/252271255656055"}}
+2025-08-16 16:10:53 [ERROR]: Jotform API response error Request failed with status code 404 | {"status":404,"url":"/form/your_form_id_here","data":{"responseCode":404,"message":"Requested URL (/form/your_form_id_here) is not available!","content":"","duration":"29.60ms","info":"https://api.jotform.com/docs"}}
+2025-08-16 16:10:53 [ERROR]: Failed to get form from Jotform | {"formId":"your_form_id_here","error":"Request failed with status code 404"}
+AxiosError: Request failed with status code 404
+    at settle (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/axios/dist/node/axios.cjs:2090:12)
+    at Unzip.handleStreamEnd (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/axios/dist/node/axios.cjs:3207:11)
+    at Unzip.emit (node:events:519:35)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+    at Axios.request (/Users/trantuanhuy/api/jotform-bitrix24-integration/node_modules/axios/dist/node/axios.cjs:4317:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async JotformService.getForm (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/services/jotformService.js:67:24)
+    at async JotformService.validateConnection (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/services/jotformService.js:244:22)
+    at async Server.validateConfiguration (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:220:29)
+    at async Server.start (/Users/trantuanhuy/api/jotform-bitrix24-integration/src/server.js:158:7)
