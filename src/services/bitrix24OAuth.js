@@ -10,56 +10,156 @@ class Bitrix24OAuth {
     this.redirectUri = config.bitrix24.redirectUri;
     this.accessToken = config.bitrix24.accessToken;
     this.refreshToken = config.bitrix24.refreshToken;
+    this.clientEndpoint = null; // Will be set after authorization
+    this.serverEndpoint = null; // Will be set after authorization
   }
 
   /**
-   * Get OAuth2 authorization URL
+   * Get OAuth2 authorization URL for Complete OAuth 2.0 Protocol
+   * @param {string} domain - User's Bitrix24 domain (e.g., "portal.bitrix24.com")
+   * @param {string} state - Optional state parameter
    * @returns {string} Authorization URL
    */
-  getAuthorizationUrl() {
+  getAuthorizationUrl(domain = null, state = null) {
+    const targetDomain = domain || this.domain;
+    const stateParam = state || this.generateState();
+    
     const params = new URLSearchParams({
-      response_type: 'code',
       client_id: this.clientId,
-      redirect_uri: this.redirectUri,
-      scope: 'crm',
-      state: this.generateState()
+      state: stateParam
     });
 
-    const authUrl = `https://${this.domain}/oauth/authorize/?${params.toString()}`;
+    // Use the user's specific domain for authorization (Complete OAuth 2.0 Protocol)
+    const authUrl = `https://${targetDomain}/oauth/authorize/?${params.toString()}`;
     
-    logger.info('Generated OAuth2 authorization URL', {
+    logger.info('Generated Complete OAuth2 authorization URL', {
       url: authUrl,
       clientId: this.clientId,
-      redirectUri: this.redirectUri
+      domain: targetDomain,
+      state: stateParam,
+      protocol: 'complete_oauth2'
     });
 
     return authUrl;
   }
 
   /**
+   * Get user's Bitrix24 domain and redirect to authorization
+   * This is the first step of Complete OAuth 2.0 Protocol
+   * @param {string} userDomain - User provided domain
+   * @param {string} state - Optional state parameter
+   * @returns {string} Authorization URL for user's domain
+   */
+  getUserAuthorizationUrl(userDomain, state = null) {
+    // Clean up domain (remove protocol, trailing slash, etc.)
+    const cleanDomain = this.cleanDomain(userDomain);
+    
+    logger.info('🎯 STARTING COMPLETE OAUTH2 FLOW', {
+      userProvidedDomain: userDomain,
+      cleanedDomain: cleanDomain,
+      clientId: this.clientId
+    });
+
+    return this.getAuthorizationUrl(cleanDomain, state);
+  }
+
+  /**
+   * Clean and validate domain
+   * @param {string} domain - Domain to clean
+   * @returns {string} Cleaned domain
+   */
+  cleanDomain(domain) {
+    if (!domain) return this.domain;
+    
+    // Remove protocol
+    let cleaned = domain.replace(/^https?:\/\//, '');
+    
+    // Remove trailing slash
+    cleaned = cleaned.replace(/\/$/, '');
+    
+    // Remove paths
+    cleaned = cleaned.split('/')[0];
+    
+    return cleaned;
+  }
+
+  /**
+   * Process installation event data (ONAPPINSTALL)
+   * This is the simplified method for obtaining OAuth 2.0 tokens
+   * @param {Object} authData - Auth data from installation event
+   * @returns {Object} Processed auth data
+   */
+  processInstallationAuth(authData) {
+    try {
+      logger.info('Processing installation auth data', {
+        hasAccessToken: !!authData.access_token,
+        hasRefreshToken: !!authData.refresh_token,
+        domain: authData.domain,
+        status: authData.status,
+        expiresIn: authData.expires_in
+      });
+
+      // Store tokens and endpoints
+      this.accessToken = authData.access_token;
+      this.refreshToken = authData.refresh_token;
+      this.clientEndpoint = authData.client_endpoint;
+      this.serverEndpoint = authData.server_endpoint;
+      this.domain = authData.domain;
+
+      return {
+        success: true,
+        accessToken: authData.access_token,
+        refreshToken: authData.refresh_token,
+        expiresIn: authData.expires_in,
+        scope: authData.scope,
+        clientEndpoint: authData.client_endpoint,
+        serverEndpoint: authData.server_endpoint,
+        domain: authData.domain,
+        memberId: authData.member_id,
+        status: authData.status,
+        applicationToken: authData.application_token
+      };
+
+    } catch (error) {
+      logger.error('Failed to process installation auth data', {
+        error: error.message,
+        authData: authData
+      });
+
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  }
+
+  /**
    * Exchange authorization code for access token
    * @param {string} code - Authorization code
+   * @param {string} domain - Bitrix24 domain (optional, from callback)
    * @returns {Promise<Object>} Token response
    */
-  async exchangeCodeForToken(code) {
+  async exchangeCodeForToken(code, domain = null) {
     try {
-      const tokenUrl = `https://${this.domain}/oauth/token/`;
+      // Use oauth.bitrix.info as per documentation
+      const tokenUrl = 'https://oauth.bitrix.info/oauth/token/';
       
       const params = {
         grant_type: 'authorization_code',
         client_id: this.clientId,
         client_secret: this.clientSecret,
-        redirect_uri: this.redirectUri,
         code: code
       };
 
       logger.info('Exchanging authorization code for token', {
         tokenUrl,
         clientId: this.clientId,
-        hasCode: !!code
+        hasCode: !!code,
+        domain: domain || this.domain
       });
 
-      const response = await axios.post(tokenUrl, params, {
+      const response = await axios.post(tokenUrl, null, {
+        params: params,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -68,16 +168,24 @@ class Bitrix24OAuth {
 
       const tokenData = response.data;
       
+      if (tokenData.error) {
+        throw new Error(`OAuth error: ${tokenData.error_description || tokenData.error}`);
+      }
+      
       logger.info('Token exchange successful', {
         hasAccessToken: !!tokenData.access_token,
         hasRefreshToken: !!tokenData.refresh_token,
         expiresIn: tokenData.expires_in,
-        scope: tokenData.scope
+        scope: tokenData.scope,
+        clientEndpoint: tokenData.client_endpoint,
+        status: tokenData.status
       });
 
-      // Store tokens (in production, save to database)
+      // Store tokens and endpoints
       this.accessToken = tokenData.access_token;
       this.refreshToken = tokenData.refresh_token;
+      this.clientEndpoint = tokenData.client_endpoint;
+      this.serverEndpoint = tokenData.server_endpoint;
 
       return {
         success: true,
@@ -85,7 +193,11 @@ class Bitrix24OAuth {
         refreshToken: tokenData.refresh_token,
         expiresIn: tokenData.expires_in,
         scope: tokenData.scope,
-        domain: tokenData.domain || this.domain
+        clientEndpoint: tokenData.client_endpoint,
+        serverEndpoint: tokenData.server_endpoint,
+        domain: tokenData.domain || domain,
+        memberId: tokenData.member_id,
+        status: tokenData.status
       };
 
     } catch (error) {
@@ -113,7 +225,8 @@ class Bitrix24OAuth {
         throw new Error('No refresh token available');
       }
 
-      const tokenUrl = `https://${this.domain}/oauth/token/`;
+      // Use oauth.bitrix.info as per documentation
+      const tokenUrl = 'https://oauth.bitrix.info/oauth/token/';
       
       const params = {
         grant_type: 'refresh_token',
@@ -128,7 +241,8 @@ class Bitrix24OAuth {
         hasRefreshToken: !!this.refreshToken
       });
 
-      const response = await axios.post(tokenUrl, params, {
+      const response = await axios.post(tokenUrl, null, {
+        params: params,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -136,6 +250,10 @@ class Bitrix24OAuth {
       });
 
       const tokenData = response.data;
+      
+      if (tokenData.error) {
+        throw new Error(`OAuth refresh error: ${tokenData.error_description || tokenData.error}`);
+      }
       
       logger.info('Token refresh successful', {
         hasAccessToken: !!tokenData.access_token,
@@ -183,7 +301,9 @@ class Bitrix24OAuth {
         throw new Error('No access token available. Please authorize first.');
       }
 
-      const apiUrl = `https://${this.domain}/rest/${method}.json`;
+      // Use client_endpoint if available, otherwise construct URL
+      const baseUrl = this.clientEndpoint || `https://${this.domain}/rest/`;
+      const apiUrl = `${baseUrl}${method}`;
       
       const requestData = {
         ...params,
@@ -208,7 +328,7 @@ class Bitrix24OAuth {
 
       if (result.error) {
         // Check if token is expired
-        if (result.error === 'expired_token' || result.error === 'invalid_token') {
+        if (result.error === 'expired_token' || result.error === 'invalid_token' || result.error === 'WRONG_AUTH_TYPE') {
           logger.warn('Access token expired, attempting refresh');
           
           const refreshResult = await this.refreshAccessToken();

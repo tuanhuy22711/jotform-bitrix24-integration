@@ -48,18 +48,29 @@ router.get('/authorize', (req, res) => {
  */
 router.get('/callback', async (req, res) => {
   try {
-    const { code, state, error } = req.query;
+    const { code, state, domain, member_id, scope, server_domain, error } = req.query;
 
-    logger.info('OAuth2 callback received', {
+    logger.info('🔄 OAUTH2 CALLBACK RECEIVED - FULL DATA', {
+      timestamp: new Date().toISOString(),
+      headers: req.headers,
+      query: req.query,
+      fullQuery: JSON.stringify(req.query, null, 2),
       hasCode: !!code,
       hasState: !!state,
-      hasError: !!error
+      domain,
+      memberId: member_id,
+      scope,
+      serverDomain: server_domain,
+      hasError: !!error,
+      userAgent: req.get('user-agent'),
+      referer: req.get('referer')
     });
 
     if (error) {
-      logger.error('OAuth2 authorization denied', {
+      logger.error('❌ OAUTH2 AUTHORIZATION DENIED', {
         error,
-        errorDescription: req.query.error_description
+        errorDescription: req.query.error_description,
+        fullQuery: req.query
       });
 
       return res.status(400).json({
@@ -70,6 +81,10 @@ router.get('/callback', async (req, res) => {
     }
 
     if (!code) {
+      logger.error('❌ MISSING AUTHORIZATION CODE', {
+        query: req.query
+      });
+      
       return res.status(400).json({
         success: false,
         error: 'Missing authorization code',
@@ -78,14 +93,39 @@ router.get('/callback', async (req, res) => {
     }
 
     // Exchange code for tokens
-    const tokenResult = await bitrix24Service.handleOAuthCallback(code);
+    logger.info('🔄 STARTING TOKEN EXCHANGE', {
+      code: code.substring(0, 20) + '...',
+      domain,
+      state
+    });
+
+    const tokenResult = await bitrix24Service.handleOAuthCallback(code, domain);
+
+    logger.info('🎯 TOKEN EXCHANGE RESULT', {
+      success: tokenResult.success,
+      hasAccessToken: !!tokenResult.accessToken,
+      hasRefreshToken: !!tokenResult.refreshToken,
+      expiresIn: tokenResult.expiresIn,
+      domain: tokenResult.domain,
+      memberId: tokenResult.memberId,
+      status: tokenResult.status,
+      scope: tokenResult.scope,
+      clientEndpoint: tokenResult.clientEndpoint,
+      serverEndpoint: tokenResult.serverEndpoint,
+      fullResult: tokenResult
+    });
 
     if (tokenResult.success) {
-      logger.info('OAuth2 authorization successful', {
-        hasAccessToken: !!tokenResult.accessToken,
-        hasRefreshToken: !!tokenResult.refreshToken,
+      logger.info('✅ OAUTH2 AUTHORIZATION SUCCESSFUL - TOKENS RECEIVED', {
+        accessToken: tokenResult.accessToken ? `${tokenResult.accessToken.substring(0, 20)}...` : null,
+        refreshToken: tokenResult.refreshToken ? `${tokenResult.refreshToken.substring(0, 20)}...` : null,
         expiresIn: tokenResult.expiresIn,
-        domain: tokenResult.domain
+        domain: tokenResult.domain,
+        memberId: tokenResult.memberId,
+        status: tokenResult.status,
+        scope: tokenResult.scope,
+        clientEndpoint: tokenResult.clientEndpoint,
+        serverEndpoint: tokenResult.serverEndpoint
       });
 
       // For development, show the tokens
@@ -98,7 +138,10 @@ router.get('/callback', async (req, res) => {
             refreshToken: tokenResult.refreshToken,
             expiresIn: tokenResult.expiresIn,
             scope: tokenResult.scope,
-            domain: tokenResult.domain
+            domain: tokenResult.domain,
+            memberId: tokenResult.memberId,
+            status: tokenResult.status,
+            clientEndpoint: tokenResult.clientEndpoint
           },
           nextSteps: [
             'Save these tokens securely',
@@ -115,7 +158,9 @@ router.get('/callback', async (req, res) => {
           <head><title>Authorization Successful</title></head>
           <body>
             <h1>✅ Authorization Successful!</h1>
-            <p>Your Jotform-Bitrix24 integration is now connected.</p>
+            <p>Your Jotform-Bitrix24 integration is now connected to ${domain}.</p>
+            <p>Member ID: ${member_id}</p>
+            <p>Scope: ${scope}</p>
             <p>You can close this window and return to your application.</p>
           </body>
         </html>

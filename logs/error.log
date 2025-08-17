@@ -51,3 +51,35 @@ TypeError: createLead is not a function
 2025-08-16 16:53:12 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311471902515653162"}
 2025-08-16 16:53:12 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311471902515653162"}
 2025-08-16 16:53:12 [ERROR]: Failed to create lead | {"submissionId":"6311471902515653162","error":"Request failed with status code 401","duration":655}
+2025-08-16 16:59:39 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 16:59:39 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311475782516659598"}
+2025-08-16 16:59:39 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311475782516659598"}
+2025-08-16 16:59:39 [ERROR]: Failed to create lead | {"submissionId":"6311475782516659598","error":"Request failed with status code 401","duration":517}
+2025-08-16 17:09:13 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 17:09:13 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311481512519164215"}
+2025-08-16 17:09:13 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311481512519164215"}
+2025-08-16 17:09:13 [ERROR]: Failed to create lead | {"submissionId":"6311481512519164215","error":"Request failed with status code 401","duration":452}
+2025-08-16 17:24:14 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 17:24:14 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311490532514208386"}
+2025-08-16 17:24:14 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311490532514208386"}
+2025-08-16 17:24:14 [ERROR]: Failed to create lead | {"submissionId":"6311490532514208386","error":"Request failed with status code 401","duration":505}
+2025-08-16 17:32:55 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 17:32:55 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311495732511069300"}
+2025-08-16 17:32:55 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311495732511069300"}
+2025-08-16 17:32:55 [ERROR]: Failed to create lead | {"submissionId":"6311495732511069300","error":"Request failed with status code 401","duration":532}
+2025-08-17 12:26:10 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-17 12:26:10 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6312175687216518628"}
+2025-08-17 12:26:10 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6312175687216518628"}
+2025-08-17 12:26:10 [ERROR]: Failed to create lead | {"submissionId":"6312175687216518628","error":"Request failed with status code 401","duration":529}
+2025-08-17 12:32:10 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-17 12:32:11 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6312179307217745782"}
+2025-08-17 12:32:11 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6312179307217745782"}
+2025-08-17 12:32:11 [ERROR]: Failed to create lead | {"submissionId":"6312179307217745782","error":"Request failed with status code 401","duration":484}
+2025-08-17 15:28:05 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-17 15:28:05 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6312284847217533039"}
+2025-08-17 15:28:05 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6312284847217533039"}
+2025-08-17 15:28:05 [ERROR]: Failed to create lead | {"submissionId":"6312284847217533039","error":"Request failed with status code 401","duration":547}
+2025-08-17 15:29:47 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-17 15:29:47 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6312285867215409953"}
+2025-08-17 15:29:47 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6312285867215409953"}
+2025-08-17 15:29:47 [ERROR]: Failed to create lead | {"submissionId":"6312285867215409953","error":"Request failed with status code 401","duration":490}

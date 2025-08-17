@@ -147,3 +147,256 @@ TypeError: createLead is not a function
 2025-08-16 16:55:06 [INFO]: Server running on port 3000
 2025-08-16 16:55:06 [INFO]: Environment:
 2025-08-16 16:57:52 [INFO]: SIGINT received, shutting down gracefully
+2025-08-16 16:59:29 [INFO]: Server running on port 3000
+2025-08-16 16:59:29 [INFO]: Environment:
+2025-08-16 16:59:39 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-16 16:59:39 [INFO]: Jotform webhook received | {"submissionID":"6311475782516659598","hasRawRequest":true,"ip":"::1"}
+2025-08-16 16:59:39 [INFO]: Contact data parsed | {"submissionId":"6311475782516659598","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-16 16:59:39 [INFO]: Creating Bitrix24 lead | {"submissionId":"6311475782516659598","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-16 16:59:39 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 16:59:39 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-16 16:59:39 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6311475782516659598"}
+2025-08-16 16:59:39 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311475782516659598"}
+2025-08-16 16:59:39 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311475782516659598"}
+2025-08-16 16:59:39 [ERROR]: Failed to create lead | {"submissionId":"6311475782516659598","error":"Request failed with status code 401","duration":517}
+2025-08-16 16:59:39 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":527,"ip":"::1"}
+2025-08-16 17:08:55 [INFO]: SIGINT received, shutting down gracefully
+2025-08-16 17:08:56 [INFO]: Server running on port 3000
+2025-08-16 17:08:56 [INFO]: Environment:
+2025-08-16 17:09:13 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-16 17:09:13 [INFO]: Jotform webhook received | {"submissionID":"6311481512519164215","hasRawRequest":true,"ip":"::1"}
+2025-08-16 17:09:13 [INFO]: Contact data parsed | {"submissionId":"6311481512519164215","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-16 17:09:13 [INFO]: Creating Bitrix24 lead | {"submissionId":"6311481512519164215","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-16 17:09:13 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 17:09:13 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-16 17:09:13 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6311481512519164215"}
+2025-08-16 17:09:13 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311481512519164215"}
+2025-08-16 17:09:13 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311481512519164215"}
+2025-08-16 17:09:13 [ERROR]: Failed to create lead | {"submissionId":"6311481512519164215","error":"Request failed with status code 401","duration":452}
+2025-08-16 17:09:13 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":465,"ip":"::1"}
+2025-08-16 17:10:01 [INFO]: Request received | {"method":"POST","url":"/oauth/authorize?DOMAIN=b24-7woulk.bitrix24.vn&PROTOCOL=1&LANG=vn&APP_SID=66009d77c7aba717f48fade3729dd207","ip":"::1","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"}
+2025-08-16 17:10:01 [WARN]: Route not found | {"method":"POST","url":"/?DOMAIN=b24-7woulk.bitrix24.vn&PROTOCOL=1&LANG=vn&APP_SID=66009d77c7aba717f48fade3729dd207","ip":"::1"}
+2025-08-16 17:10:01 [INFO]: Request completed | {"method":"POST","url":"/?DOMAIN=b24-7woulk.bitrix24.vn&PROTOCOL=1&LANG=vn&APP_SID=66009d77c7aba717f48fade3729dd207","statusCode":404,"duration":2,"ip":"::1"}
+2025-08-16 17:14:27 [INFO]: SIGINT received, shutting down gracefully
+2025-08-16 17:14:29 [INFO]: Server running on port 3000
+2025-08-16 17:14:29 [INFO]: Environment:
+2025-08-16 17:19:02 [INFO]: Request received | {"method":"GET","url":"/webhook/jotform","ip":"::1","userAgent":"Mozilla/5.0 (compatible)"}
+2025-08-16 17:19:02 [WARN]: Route not found | {"method":"GET","url":"/","ip":"::1"}
+2025-08-16 17:19:02 [INFO]: Request completed | {"method":"GET","url":"/","statusCode":404,"duration":19,"ip":"::1"}
+2025-08-16 17:24:14 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-16 17:24:14 [INFO]: Jotform webhook received | {"submissionID":"6311490532514208386","hasRawRequest":true,"ip":"::1"}
+2025-08-16 17:24:14 [INFO]: Contact data parsed | {"submissionId":"6311490532514208386","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-16 17:24:14 [INFO]: Creating Bitrix24 lead | {"submissionId":"6311490532514208386","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-16 17:24:14 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 17:24:14 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-16 17:24:14 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6311490532514208386"}
+2025-08-16 17:24:14 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311490532514208386"}
+2025-08-16 17:24:14 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311490532514208386"}
+2025-08-16 17:24:14 [ERROR]: Failed to create lead | {"submissionId":"6311490532514208386","error":"Request failed with status code 401","duration":505}
+2025-08-16 17:24:14 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":513,"ip":"::1"}
+2025-08-16 17:26:53 [INFO]: SIGINT received, shutting down gracefully
+2025-08-16 17:32:42 [INFO]: Server running on port 3000
+2025-08-16 17:32:42 [INFO]: Environment:
+2025-08-16 17:32:55 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-16 17:32:55 [INFO]: Jotform webhook received | {"submissionID":"6311495732511069300","hasRawRequest":true,"ip":"::1"}
+2025-08-16 17:32:55 [INFO]: Contact data parsed | {"submissionId":"6311495732511069300","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-16 17:32:55 [INFO]: Creating Bitrix24 lead | {"submissionId":"6311495732511069300","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-16 17:32:55 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-16 17:32:55 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-16 17:32:55 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6311495732511069300"}
+2025-08-16 17:32:55 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6311495732511069300"}
+2025-08-16 17:32:55 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6311495732511069300"}
+2025-08-16 17:32:55 [ERROR]: Failed to create lead | {"submissionId":"6311495732511069300","error":"Request failed with status code 401","duration":532}
+2025-08-16 17:32:55 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":539,"ip":"::1"}
+2025-08-16 17:47:08 [INFO]: Request received | {"method":"GET","url":"/oauth/callback","ip":"::1","userAgent":"Mozilla/5.0 (compatible)"}
+2025-08-16 17:47:08 [INFO]: OAuth2 callback received | {"hasCode":false,"hasState":false,"hasError":false}
+2025-08-16 17:47:08 [INFO]: Request completed | {"method":"GET","url":"/callback","statusCode":400,"duration":23,"ip":"::1"}
+2025-08-16 17:47:11 [INFO]: Request received | {"method":"GET","url":"/oauth/callback","ip":"::1","userAgent":"Mozilla/5.0 (compatible)"}
+2025-08-16 17:47:11 [INFO]: OAuth2 callback received | {"hasCode":false,"hasState":false,"hasError":false}
+2025-08-16 17:47:11 [INFO]: Request completed | {"method":"GET","url":"/callback","statusCode":400,"duration":4,"ip":"::1"}
+2025-08-16 17:47:24 [INFO]: Request received | {"method":"GET","url":"/oauth/callback","ip":"::1","userAgent":"Mozilla/5.0 (compatible)"}
+2025-08-16 17:47:24 [INFO]: OAuth2 callback received | {"hasCode":false,"hasState":false,"hasError":false}
+2025-08-16 17:47:24 [INFO]: Request completed | {"method":"GET","url":"/callback","statusCode":400,"duration":3,"ip":"::1"}
+2025-08-16 17:47:54 [INFO]: Request received | {"method":"GET","url":"/oauth/callback","ip":"::1","userAgent":"Mozilla/5.0 (compatible)"}
+2025-08-16 17:47:54 [INFO]: OAuth2 callback received | {"hasCode":false,"hasState":false,"hasError":false}
+2025-08-16 17:47:54 [INFO]: Request completed | {"method":"GET","url":"/callback","statusCode":400,"duration":2,"ip":"::1"}
+2025-08-17 12:20:17 [INFO]: SIGINT received, shutting down gracefully
+2025-08-17 12:21:31 [INFO]: Server running on port 3000
+2025-08-17 12:21:31 [INFO]: Environment:
+2025-08-17 12:22:42 [INFO]: Request received | {"method":"POST","url":"/?DOMAIN=b24-7woulk.bitrix24.vn&PROTOCOL=1&LANG=vn&APP_SID=e3fea32597d12faa0b1da0dc7c4c0dac","ip":"::1","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"}
+2025-08-17 12:22:42 [INFO]: 🚀 BITRIX24 INSTALLATION REQUEST - FULL DATA | {"headers":{"host":"democracy-sleeve-brunette-confident.trycloudflare.com","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36","content-length":"363","accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","accept-encoding":"gzip","accept-language":"vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5","cache-control":"max-age=0","cdn-loop":"cloudflare; loops=1; subreqs=1","cf-connecting-ip":"42.113.16.127","cf-ew-via":"15","cf-ipcountry":"VN","cf-ray":"9706bc35e3b8e2e8-HKG","cf-visitor":"{\"scheme\":\"https\"}","cf-warp-tag-id":"f5ea3b18-2ae3-4c7a-80d1-b775ee54de14","cf-worker":"trycloudflare.com","connection":"keep-alive","content-type":"application/x-www-form-urlencoded","origin":"https://b24-7woulk.bitrix24.vn","priority":"u=0, i","referer":"https://b24-7woulk.bitrix24.vn/","sec-ch-ua":"\"Not;A=Brand\";v=\"99\", \"Google Chrome\";v=\"139\", \"Chromium\";v=\"139\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"macOS\"","sec-fetch-dest":"iframe","sec-fetch-mode":"navigate","sec-fetch-site":"cross-site","sec-fetch-storage-access":"active","upgrade-insecure-requests":"1","x-forwarded-for":"42.113.16.127","x-forwarded-proto":"https"},"query":{"DOMAIN":"b24-7woulk.bitrix24.vn","PROTOCOL":"1","LANG":"vn","APP_SID":"e3fea32597d12faa0b1da0dc7c4c0dac"},"body":{"AUTH_ID":"3175a168007b412d007b3dd100000001403807f31828aa0cff78bdac1862cb80d2cefd","AUTH_EXPIRES":"3600","REFRESH_ID":"21f4c868007b412d007b3dd1000000014038071b2cae837cd296f6f818d553163a828a","member_id":"78d52900632fa1e9acbd6c03fe41e332","status":"L","PLACEMENT":"DEFAULT","PLACEMENT_OPTIONS":"{\"IFRAME\":\"Y\",\"IFRAME_TYPE\":\"SIDE_SLIDER\",\"any\":\"5\\/\"}"},"rawBody":"{\n  \"AUTH_ID\": \"3175a168007b412d007b3dd100000001403807f31828aa0cff78bdac1862cb80d2cefd\",\n  \"AUTH_EXPIRES\": \"3600\",\n  \"REFRESH_ID\": \"21f4c868007b412d007b3dd1000000014038071b2cae837cd296f6f818d553163a828a\",\n  \"member_id\": \"78d52900632fa1e9acbd6c03fe41e332\",\n  \"status\": \"L\",\n  \"PLACEMENT\": \"DEFAULT\",\n  \"PLACEMENT_OPTIONS\": \"{\\\"IFRAME\\\":\\\"Y\\\",\\\"IFRAME_TYPE\\\":\\\"SIDE_SLIDER\\\",\\\"any\\\":\\\"5\\\\/\\\"}\"\n}","contentType":"application/x-www-form-urlencoded","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36","hasAuthData":false,"requestMethod":"POST","originalUrl":"/?DOMAIN=b24-7woulk.bitrix24.vn&PROTOCOL=1&LANG=vn&APP_SID=e3fea32597d12faa0b1da0dc7c4c0dac"}
+2025-08-17 12:22:42 [INFO]: Processing traditional installation | {"domain":"b24-7woulk.bitrix24.vn","protocol":"1","language":"vn","appSid":"e3fea32597d12faa0b1da0dc7c4c0dac"}
+2025-08-17 12:22:42 [INFO]: Request completed | {"method":"POST","url":"/?DOMAIN=b24-7woulk.bitrix24.vn&PROTOCOL=1&LANG=vn&APP_SID=e3fea32597d12faa0b1da0dc7c4c0dac","statusCode":200,"duration":10,"ip":"::1"}
+2025-08-17 12:25:01 [INFO]: SIGINT received, shutting down gracefully
+2025-08-17 12:25:02 [INFO]: Server running on port 3000
+2025-08-17 12:25:02 [INFO]: Environment:
+2025-08-17 12:26:10 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-17 12:26:10 [INFO]: Jotform webhook received | {"submissionID":"6312175687216518628","hasRawRequest":true,"ip":"::1"}
+2025-08-17 12:26:10 [INFO]: Contact data parsed | {"submissionId":"6312175687216518628","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-17 12:26:10 [INFO]: Creating Bitrix24 lead | {"submissionId":"6312175687216518628","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-17 12:26:10 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-17 12:26:10 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-17 12:26:10 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6312175687216518628"}
+2025-08-17 12:26:10 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6312175687216518628"}
+2025-08-17 12:26:10 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6312175687216518628"}
+2025-08-17 12:26:10 [ERROR]: Failed to create lead | {"submissionId":"6312175687216518628","error":"Request failed with status code 401","duration":529}
+2025-08-17 12:26:10 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":539,"ip":"::1"}
+2025-08-17 12:31:21 [INFO]: SIGINT received, shutting down gracefully
+2025-08-17 12:31:22 [INFO]: 📁 NO TOKEN FILE FOUND | {"tokenFile":"/Users/trantuanhuy/api/jotform-bitrix24-integration/data/tokens.json"}
+2025-08-17 12:31:22 [INFO]: 📁 NO TOKEN FILE FOUND | {"tokenFile":"/Users/trantuanhuy/api/jotform-bitrix24-integration/data/tokens.json"}
+2025-08-17 12:31:22 [INFO]: 📁 NO TOKEN FILE FOUND | {"tokenFile":"/Users/trantuanhuy/api/jotform-bitrix24-integration/data/tokens.json"}
+2025-08-17 12:31:22 [INFO]: 📁 NO TOKEN FILE FOUND | {"tokenFile":"/Users/trantuanhuy/api/jotform-bitrix24-integration/data/tokens.json"}
+2025-08-17 12:31:22 [INFO]: Server running on port 3000
+2025-08-17 12:31:22 [INFO]: Environment:
+2025-08-17 12:32:10 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-17 12:32:10 [INFO]: Jotform webhook received | {"submissionID":"6312179307217745782","hasRawRequest":true,"ip":"::1"}
+2025-08-17 12:32:10 [INFO]: Contact data parsed | {"submissionId":"6312179307217745782","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-17 12:32:10 [INFO]: Creating Bitrix24 lead | {"submissionId":"6312179307217745782","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-17 12:32:10 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-17 12:32:10 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-17 12:32:10 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6312179307217745782"}
+2025-08-17 12:32:11 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6312179307217745782"}
+2025-08-17 12:32:11 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6312179307217745782"}
+2025-08-17 12:32:11 [ERROR]: Failed to create lead | {"submissionId":"6312179307217745782","error":"Request failed with status code 401","duration":484}
+2025-08-17 12:32:11 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":494,"ip":"::1"}
+2025-08-17 15:15:38 [INFO]: SIGINT received, shutting down gracefully
+2025-08-17 15:15:39 [INFO]: 📁 NO TOKEN FILE FOUND | {"tokenFile":"/Users/trantuanhuy/api/jotform-bitrix24-integration/data/tokens.json"}
+2025-08-17 15:15:39 [INFO]: 📁 NO TOKEN FILE FOUND | {"tokenFile":"/Users/trantuanhuy/api/jotform-bitrix24-integration/data/tokens.json"}
+2025-08-17 15:15:39 [INFO]: 📁 NO TOKEN FILE FOUND | {"tokenFile":"/Users/trantuanhuy/api/jotform-bitrix24-integration/data/tokens.json"}
+2025-08-17 15:15:39 [INFO]: 📁 NO TOKEN FILE FOUND | {"tokenFile":"/Users/trantuanhuy/api/jotform-bitrix24-integration/data/tokens.json"}
+2025-08-17 15:15:39 [INFO]: Server running on port 3000
+2025-08-17 15:15:39 [INFO]: Environment:
+2025-08-17 15:26:56 [INFO]: Request received | {"method":"POST","url":"/?DOMAIN=b24-7woulk.bitrix24.vn&PROTOCOL=1&LANG=vn&APP_SID=fe0eeffa0a7ae1ac8cd57c99fd9717eb","ip":"::1","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"}
+2025-08-17 15:26:56 [INFO]: 🚀 BITRIX24 INSTALLATION REQUEST - FULL DATA | {"headers":{"host":"vitamins-former-intelligent-steal.trycloudflare.com","user-agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36","content-length":"363","accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7","accept-encoding":"gzip","accept-language":"vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5","cache-control":"max-age=0","cdn-loop":"cloudflare; loops=1; subreqs=1","cf-connecting-ip":"42.113.16.127","cf-ew-via":"15","cf-ipcountry":"VN","cf-ray":"9707ca1962d709e0-HKG","cf-visitor":"{\"scheme\":\"https\"}","cf-warp-tag-id":"18a3a5e7-72c2-42dd-96c3-a1401dbc9af5","cf-worker":"trycloudflare.com","connection":"keep-alive","content-type":"application/x-www-form-urlencoded","origin":"https://b24-7woulk.bitrix24.vn","priority":"u=0, i","referer":"https://b24-7woulk.bitrix24.vn/","sec-ch-ua":"\"Not;A=Brand\";v=\"99\", \"Google Chrome\";v=\"139\", \"Chromium\";v=\"139\"","sec-ch-ua-mobile":"?0","sec-ch-ua-platform":"\"macOS\"","sec-fetch-dest":"iframe","sec-fetch-mode":"navigate","sec-fetch-site":"cross-site","sec-fetch-storage-access":"active","upgrade-insecure-requests":"1","x-forwarded-for":"42.113.16.127","x-forwarded-proto":"https"},"query":{"DOMAIN":"b24-7woulk.bitrix24.vn","PROTOCOL":"1","LANG":"vn","APP_SID":"fe0eeffa0a7ae1ac8cd57c99fd9717eb"},"body":{"AUTH_ID":"60a0a168007b4179007b3dd1000000014038078bc32d8f6f87558ca267b8c79946a9a0","AUTH_EXPIRES":"3600","REFRESH_ID":"501fc968007b4179007b3dd1000000014038071f4fd45f30b3919e1584f3191869430a","member_id":"78d52900632fa1e9acbd6c03fe41e332","status":"L","PLACEMENT":"DEFAULT","PLACEMENT_OPTIONS":"{\"IFRAME\":\"Y\",\"IFRAME_TYPE\":\"SIDE_SLIDER\",\"any\":\"7\\/\"}"},"rawBody":"{\n  \"AUTH_ID\": \"60a0a168007b4179007b3dd1000000014038078bc32d8f6f87558ca267b8c79946a9a0\",\n  \"AUTH_EXPIRES\": \"3600\",\n  \"REFRESH_ID\": \"501fc968007b4179007b3dd1000000014038071f4fd45f30b3919e1584f3191869430a\",\n  \"member_id\": \"78d52900632fa1e9acbd6c03fe41e332\",\n  \"status\": \"L\",\n  \"PLACEMENT\": \"DEFAULT\",\n  \"PLACEMENT_OPTIONS\": \"{\\\"IFRAME\\\":\\\"Y\\\",\\\"IFRAME_TYPE\\\":\\\"SIDE_SLIDER\\\",\\\"any\\\":\\\"7\\\\/\\\"}\"\n}","contentType":"application/x-www-form-urlencoded","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36","hasAuthData":false,"requestMethod":"POST","originalUrl":"/?DOMAIN=b24-7woulk.bitrix24.vn&PROTOCOL=1&LANG=vn&APP_SID=fe0eeffa0a7ae1ac8cd57c99fd9717eb"}
+2025-08-17 15:26:56 [INFO]: 🎯 PROCESSING INSTALLATION WITH DIRECT AUTH DATA | {"authId":"60a0a168007b4179007b...","refreshId":"501fc968007b4179007b...","authExpires":"3600","memberId":"78d52900632fa1e9acbd6c03fe41e332","status":"L","domain":"b24-7woulk.bitrix24.vn","placement":"DEFAULT","placementOptions":"{\"IFRAME\":\"Y\",\"IFRAME_TYPE\":\"SIDE_SLIDER\",\"any\":\"7\\/\"}"}
+2025-08-17 15:26:56 [INFO]: Processing installation auth data | {"hasAccessToken":true,"hasRefreshToken":true,"domain":"b24-7woulk.bitrix24.vn","status":"L","expiresIn":"3600"}
+2025-08-17 15:26:56 [INFO]: 💾 TOKENS SAVED TO FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:26:56 [INFO]: 💾 TOKENS SAVED TO PERSISTENT STORAGE | {"domain":"b24-7woulk.bitrix24.vn","memberId":"78d52900632fa1e9acbd6c03fe41e332"}
+2025-08-17 15:26:56 [INFO]: ✅ SIMPLIFIED AUTH PROCESSED SUCCESSFULLY | {"domain":"b24-7woulk.bitrix24.vn","memberId":"78d52900632fa1e9acbd6c03fe41e332","status":"L","hasAccessToken":true,"hasRefreshToken":true,"clientEndpoint":"https://b24-7woulk.bitrix24.vn/rest/","serverEndpoint":"https://oauth.bitrix.info/rest/"}
+2025-08-17 15:26:56 [INFO]: Request completed | {"method":"POST","url":"/?DOMAIN=b24-7woulk.bitrix24.vn&PROTOCOL=1&LANG=vn&APP_SID=fe0eeffa0a7ae1ac8cd57c99fd9717eb","statusCode":200,"duration":15,"ip":"::1"}
+2025-08-17 15:28:05 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-17 15:28:05 [INFO]: Jotform webhook received | {"submissionID":"6312284847217533039","hasRawRequest":true,"ip":"::1"}
+2025-08-17 15:28:05 [INFO]: Contact data parsed | {"submissionId":"6312284847217533039","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-17 15:28:05 [INFO]: Creating Bitrix24 lead | {"submissionId":"6312284847217533039","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-17 15:28:05 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-17 15:28:05 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-17 15:28:05 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6312284847217533039"}
+2025-08-17 15:28:05 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6312284847217533039"}
+2025-08-17 15:28:05 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6312284847217533039"}
+2025-08-17 15:28:05 [ERROR]: Failed to create lead | {"submissionId":"6312284847217533039","error":"Request failed with status code 401","duration":547}
+2025-08-17 15:28:05 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":555,"ip":"::1"}
+2025-08-17 15:29:02 [INFO]: Request received | {"method":"GET","url":"/oauth/authorize","ip":"::1","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"}
+2025-08-17 15:29:02 [INFO]: Generated OAuth2 authorization URL | {"url":"https://b24-7woulk.bitrix24.vn/oauth/authorize/?client_id=local.68a057ddc375a4.06266669&state=rnd2gmo7igis59gjum2r","clientId":"local.68a057ddc375a4.06266669","domain":"b24-7woulk.bitrix24.vn","state":"rnd2gmo7igis59gjum2r"}
+2025-08-17 15:29:02 [INFO]: Redirecting to Bitrix24 OAuth2 authorization | {"authUrl":"https://b24-7woulk.bitrix24.vn/oauth/authorize/?client_id=local.68a057ddc375a4.06266669&state=rnd2gm..."}
+2025-08-17 15:29:02 [INFO]: Request completed | {"method":"GET","url":"/authorize","statusCode":200,"duration":9,"ip":"::1"}
+2025-08-17 15:29:03 [INFO]: Request received | {"method":"GET","url":"/favicon.ico","ip":"::1","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"}
+2025-08-17 15:29:03 [WARN]: Route not found | {"method":"GET","url":"/","ip":"::1"}
+2025-08-17 15:29:03 [INFO]: Request completed | {"method":"GET","url":"/","statusCode":404,"duration":2,"ip":"::1"}
+2025-08-17 15:29:17 [INFO]: Request received | {"method":"GET","url":"/oauth/authorize","ip":"::1","userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"}
+2025-08-17 15:29:17 [INFO]: Generated OAuth2 authorization URL | {"url":"https://b24-7woulk.bitrix24.vn/oauth/authorize/?client_id=local.68a057ddc375a4.06266669&state=83m7cwvuxkh0msd1xskdhrd","clientId":"local.68a057ddc375a4.06266669","domain":"b24-7woulk.bitrix24.vn","state":"83m7cwvuxkh0msd1xskdhrd"}
+2025-08-17 15:29:17 [INFO]: Redirecting to Bitrix24 OAuth2 authorization | {"authUrl":"https://b24-7woulk.bitrix24.vn/oauth/authorize/?client_id=local.68a057ddc375a4.06266669&state=83m7cw..."}
+2025-08-17 15:29:17 [INFO]: Request completed | {"method":"GET","url":"/authorize","statusCode":200,"duration":2,"ip":"::1"}
+2025-08-17 15:29:47 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-17 15:29:47 [INFO]: Jotform webhook received | {"submissionID":"6312285867215409953","hasRawRequest":true,"ip":"::1"}
+2025-08-17 15:29:47 [INFO]: Contact data parsed | {"submissionId":"6312285867215409953","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-17 15:29:47 [INFO]: Creating Bitrix24 lead | {"submissionId":"6312285867215409953","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-17 15:29:47 [ERROR]: Bitrix24 API call failed | {"method":"crm.lead.add","error":"No access token available. Please authorize first."}
+2025-08-17 15:29:47 [WARN]: OAuth2 failed, trying legacy webhook | {"error":"No access token available. Please authorize first."}
+2025-08-17 15:29:47 [INFO]: Creating lead via legacy webhook | {"url":"https://b24-7woulk.bitrix24.vn/rest/1/rg1j0gwz9z74hdqe/","submissionId":"6312285867215409953"}
+2025-08-17 15:29:47 [ERROR]: Legacy webhook lead creation failed | {"error":"Request failed with status code 401","submissionId":"6312285867215409953"}
+2025-08-17 15:29:47 [ERROR]: Failed to create lead in Bitrix24 | {"error":"Request failed with status code 401","submissionId":"6312285867215409953"}
+2025-08-17 15:29:47 [ERROR]: Failed to create lead | {"submissionId":"6312285867215409953","error":"Request failed with status code 401","duration":490}
+2025-08-17 15:29:47 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":494,"ip":"::1"}
+2025-08-17 15:30:12 [INFO]: SIGINT received, shutting down gracefully
+2025-08-17 15:34:08 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:34:08 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:34:08 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:34:08 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:34:08 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:34:08 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:34:08 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:34:08 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:34:08 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:34:08 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:34:08 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:34:08 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:34:08 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:34:08 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:34:08 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:01 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:01 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:01 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:01 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:01 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:01 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:09 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:09 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:09 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:09 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 15:38:09 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 15:38:09 [INFO]: Server running on port 3000
+2025-08-17 15:38:09 [INFO]: Environment:
+2025-08-17 15:38:27 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-17 15:38:27 [INFO]: Jotform webhook received | {"submissionID":"6312291057217204316","hasRawRequest":true,"ip":"::1"}
+2025-08-17 15:38:27 [INFO]: Contact data parsed | {"submissionId":"6312291057217204316","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-17 15:38:27 [INFO]: Creating Bitrix24 lead | {"submissionId":"6312291057217204316","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-17 15:38:27 [INFO]: Making Bitrix24 API call | {"method":"crm.lead.add","url":"https://b24-7woulk.bitrix24.vn/rest/crm.lead.add","hasAccessToken":true,"paramsCount":1}
+2025-08-17 15:38:28 [INFO]: Bitrix24 API call successful | {"method":"crm.lead.add","hasResult":true,"time":{"start":1755419907.702542,"finish":1755419908.729403,"duration":1.0268609523773193,"processing":0.9874038696289062,"date_start":"2025-08-17T11:38:27+03:00","date_finish":"2025-08-17T11:38:28+03:00","operating_reset_at":1755420507,"operating":0.9873909950256348}}
+2025-08-17 15:38:28 [INFO]: Lead created successfully in Bitrix24 | {"leadId":5,"submissionId":"6312291057217204316","method":"OAuth2"}
+2025-08-17 15:38:28 [INFO]: Lead created successfully | {"submissionId":"6312291057217204316","leadId":5,"duration":1562}
+2025-08-17 15:38:28 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":200,"duration":1593,"ip":"::1"}
+2025-08-17 16:02:34 [INFO]: SIGINT received, shutting down gracefully
+2025-08-17 16:02:35 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 16:02:35 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 16:02:35 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 16:02:35 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 16:02:35 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: 📖 TOKENS LOADED FROM FILE | {"domain":"b24-7woulk.bitrix24.vn","expiresAt":"2025-08-17T09:26:56.885Z","isExpired":false,"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: 🔄 LOADING SAVED TOKENS INTO SERVICE | {"domain":"b24-7woulk.bitrix24.vn","hasAccessToken":true,"hasRefreshToken":true,"expiresAt":"2025-08-17T09:26:56.885Z"}
+2025-08-17 16:02:35 [INFO]: Tokens updated manually | {"hasAccessToken":true,"hasRefreshToken":true}
+2025-08-17 16:02:35 [INFO]: Server running on port 3000
+2025-08-17 16:02:35 [INFO]: Environment:
+2025-08-17 16:03:45 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-17 16:03:45 [INFO]: Jotform webhook received | {"submissionID":"6312306247217209963","hasRawRequest":true,"ip":"::1"}
+2025-08-17 16:03:45 [INFO]: Contact data parsed | {"submissionId":"6312306247217209963","fullName":"Trần123 Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-17 16:03:45 [INFO]: Creating Bitrix24 lead | {"submissionId":"6312306247217209963","leadTitle":"Jotform Lead: Trần123 Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-17 16:03:45 [INFO]: Making Bitrix24 API call | {"method":"crm.lead.add","url":"https://b24-7woulk.bitrix24.vn/rest/crm.lead.add","hasAccessToken":true,"paramsCount":1}
+2025-08-17 16:03:46 [INFO]: Bitrix24 API call successful | {"method":"crm.lead.add","hasResult":true,"time":{"start":1755421425.581019,"finish":1755421426.547997,"duration":0.9669780731201172,"processing":0.7976019382476807,"date_start":"2025-08-17T12:03:45+03:00","date_finish":"2025-08-17T12:03:46+03:00","operating_reset_at":1755422025,"operating":0.79758620262146}}
+2025-08-17 16:03:46 [INFO]: Lead created successfully in Bitrix24 | {"leadId":7,"submissionId":"6312306247217209963","method":"OAuth2"}
+2025-08-17 16:03:46 [INFO]: Lead created successfully | {"submissionId":"6312306247217209963","leadId":7,"duration":1462}
+2025-08-17 16:03:46 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":200,"duration":1477,"ip":"::1"}
+2025-08-17 16:07:58 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::1"}
+2025-08-17 16:07:58 [INFO]: Jotform webhook received | {"submissionID":"6312308777215993983","hasRawRequest":true,"ip":"::1"}
+2025-08-17 16:07:58 [INFO]: Contact data parsed | {"submissionId":"6312308777215993983","fullName":"Trần Huy","email":"tuanhuy227@gmail.com","phone":"(097) 828-1697"}
+2025-08-17 16:07:58 [INFO]: Creating Bitrix24 lead | {"submissionId":"6312308777215993983","leadTitle":"Jotform Lead: Trần Huy","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-17 16:07:58 [INFO]: Making Bitrix24 API call | {"method":"crm.lead.add","url":"https://b24-7woulk.bitrix24.vn/rest/crm.lead.add","hasAccessToken":true,"paramsCount":1}
+2025-08-17 16:07:59 [INFO]: Bitrix24 API call successful | {"method":"crm.lead.add","hasResult":true,"time":{"start":1755421678.935368,"finish":1755421679.633072,"duration":0.6977038383483887,"processing":0.6706020832061768,"date_start":"2025-08-17T12:07:58+03:00","date_finish":"2025-08-17T12:07:59+03:00","operating_reset_at":1755422278,"operating":1.4681711196899414}}
+2025-08-17 16:07:59 [INFO]: Lead created successfully in Bitrix24 | {"leadId":9,"submissionId":"6312308777215993983","method":"OAuth2"}
+2025-08-17 16:07:59 [INFO]: Lead created successfully | {"submissionId":"6312308777215993983","leadId":9,"duration":1139}
+2025-08-17 16:07:59 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":200,"duration":1144,"ip":"::1"}
