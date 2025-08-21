@@ -1,6 +1,7 @@
 const axios = require('axios');
 const config = require('../config/config');
 const logger = require('../utils/logger');
+const tokenStore = require('../utils/tokenStore');
 
 class Bitrix24OAuth {
   constructor() {
@@ -267,6 +268,20 @@ class Bitrix24OAuth {
         this.refreshToken = tokenData.refresh_token;
       }
 
+      // Persist refreshed tokens
+      tokenStore.saveTokens({
+        accessToken: this.accessToken,
+        refreshToken: this.refreshToken,
+        expiresIn: tokenData.expires_in,
+        scope: tokenData.scope,
+        domain: this.domain,
+        memberId: null,
+        status: null,
+        clientEndpoint: this.clientEndpoint,
+        serverEndpoint: this.serverEndpoint,
+        applicationToken: null
+      });
+
       return {
         success: true,
         accessToken: tokenData.access_token,
@@ -305,10 +320,9 @@ class Bitrix24OAuth {
       const baseUrl = this.clientEndpoint || `https://${this.domain}/rest/`;
       const apiUrl = `${baseUrl}${method}`;
       
-      const requestData = {
-        ...params,
-        auth: this.accessToken
-      };
+      // Bitrix24 expects the token in the query string (auth=) or as form params.
+      // Passing it in JSON body can be ignored by Bitrix, leading to invalid_token.
+      const requestData = { ...params };
 
       logger.info('Making Bitrix24 API call', {
         method,
@@ -321,7 +335,9 @@ class Bitrix24OAuth {
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: config.bitrix24.timeout
+        timeout: config.bitrix24.timeout,
+        // Ensure token is passed via query string
+        params: { auth: this.accessToken }
       });
 
       const result = response.data;
@@ -358,6 +374,61 @@ class Bitrix24OAuth {
       };
 
     } catch (error) {
+      const status = error.response?.status;
+      const apiError = error.response?.data?.error;
+      const needsRefresh = status === 401 || apiError === 'expired_token' || apiError === 'invalid_token' || apiError === 'WRONG_AUTH_TYPE';
+
+      if (needsRefresh) {
+        logger.warn('Access token invalid/expired, attempting refresh', {
+          method,
+          status,
+          apiError
+        });
+
+        const refreshResult = await this.refreshAccessToken();
+        if (refreshResult.success) {
+          // Retry once with new token
+          try {
+            const baseUrl = this.clientEndpoint || `https://${this.domain}/rest/`;
+            const apiUrl = `${baseUrl}${method}`;
+            const response = await axios.post(apiUrl, params, {
+              headers: { 'Content-Type': 'application/json' },
+              timeout: config.bitrix24.timeout,
+              params: { auth: this.accessToken }
+            });
+
+            const result = response.data;
+            if (result.error) {
+              throw new Error(`Bitrix24 API error after refresh: ${result.error_description || result.error}`);
+            }
+
+            logger.info('Bitrix24 API call successful after token refresh', {
+              method,
+              hasResult: !!result.result
+            });
+
+            return {
+              success: true,
+              result: result.result,
+              total: result.total,
+              time: result.time
+            };
+          } catch (retryError) {
+            logger.error('Bitrix24 API call failed after token refresh', {
+              method,
+              error: retryError.message,
+              response: retryError.response?.data,
+              status: retryError.response?.status
+            });
+          }
+        } else {
+          logger.error('Failed to refresh access token', {
+            method,
+            error: refreshResult.error
+          });
+        }
+      }
+
       logger.error('Bitrix24 API call failed', {
         method,
         error: error.message,

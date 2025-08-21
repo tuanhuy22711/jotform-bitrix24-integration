@@ -68,11 +68,17 @@ class TokenStore {
 
       const data = JSON.parse(fs.readFileSync(this.tokenFile, 'utf8'));
       
+      // Check if we have valid token data
+      if (!data || Object.keys(data).length === 0 || !data.accessToken) {
+        logger.info('📁 NO VALID TOKENS IN FILE');
+        return null;
+      }
+      
       // Check if token is expired
       const now = new Date();
-      const expiresAt = new Date(data.expiresAt);
+      const expiresAt = data.expiresAt ? new Date(data.expiresAt) : null;
       
-      if (now > expiresAt) {
+      if (expiresAt && now > expiresAt) {
         logger.warn('⏰ TOKEN EXPIRED', {
           expiresAt: data.expiresAt,
           now: now.toISOString()
@@ -83,7 +89,7 @@ class TokenStore {
       logger.info('📖 TOKENS LOADED FROM FILE', {
         domain: data.domain,
         expiresAt: data.expiresAt,
-        isExpired: now > expiresAt,
+        isExpired: expiresAt ? now > expiresAt : false,
         hasAccessToken: !!data.accessToken,
         hasRefreshToken: !!data.refreshToken
       });

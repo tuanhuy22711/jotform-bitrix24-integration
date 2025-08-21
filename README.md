@@ -1162,8 +1162,9 @@ npm run format
 # Tests
 npm run test
 
-# Type checking (if using TypeScript)
-npm run type-check
+# Code quality checks
+npm run lint
+npm run test
 ```
 
 ### Pull Request Process

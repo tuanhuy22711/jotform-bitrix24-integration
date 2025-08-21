@@ -18,7 +18,8 @@ class Bitrix24Service {
       timeout: this.timeout
     });
 
-    // Load saved tokens on initialization
+    // Load saved tokens on initialization (only once)
+    this._tokensLoaded = false;
     this.loadSavedTokens();
   }
 
@@ -26,6 +27,11 @@ class Bitrix24Service {
    * Load saved tokens from storage
    */
   loadSavedTokens() {
+    // Prevent multiple calls
+    if (this._tokensLoaded) {
+      return;
+    }
+    
     const tokens = tokenStore.loadTokens();
     if (tokens) {
       logger.info('🔄 LOADING SAVED TOKENS INTO SERVICE', {
@@ -40,6 +46,8 @@ class Bitrix24Service {
       this.oauth.serverEndpoint = tokens.serverEndpoint;
       this.oauth.domain = tokens.domain;
     }
+    
+    this._tokensLoaded = true;
   }
 
   /**

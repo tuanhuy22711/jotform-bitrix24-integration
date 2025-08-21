@@ -1,11 +1,12 @@
 const express = require('express');
 const multer = require('multer');
 const logger = require('../utils/logger');
-const Bitrix24Service = require('../services/bitrix24');
+const { ServiceContainer } = require('../services/service-container');
 
 const router = express.Router();
 const upload = multer(); // For parsing multipart/form-data
-const bitrix24Service = new Bitrix24Service(); // Tạo instance của service
+const container = ServiceContainer.getInstance();
+const bitrix24Service = container.getBitrix24Service();
 
 /**
  * Parse Jotform data from webhook

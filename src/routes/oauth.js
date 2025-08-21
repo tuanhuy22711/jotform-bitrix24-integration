@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../utils/logger');
-const Bitrix24Service = require('../services/bitrix24');
+const { ServiceContainer } = require('../services/service-container');
 
-const bitrix24Service = new Bitrix24Service();
+const container = ServiceContainer.getInstance();
+const bitrix24Service = container.getBitrix24Service();
 
 /**
  * GET /oauth/authorize - Redirect to Bitrix24 OAuth2 authorization

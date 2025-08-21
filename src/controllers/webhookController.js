@@ -1,12 +1,13 @@
 const JotformService = require('../services/jotformService');
-const Bitrix24Service = require('../services/bitrix24Service');
+const { ServiceContainer } = require('../services/service-container');
 const logger = require('../utils/logger');
 const crypto = require('crypto');
 
 class WebhookController {
   constructor() {
     this.jotformService = new JotformService();
-    this.bitrix24Service = new Bitrix24Service();
+    const container = ServiceContainer.getInstance();
+    this.bitrix24Service = container.getBitrix24Service();
   }
 
   /**

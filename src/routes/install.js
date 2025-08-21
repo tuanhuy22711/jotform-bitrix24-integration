@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../utils/logger');
 const config = require('../config/config');
-const Bitrix24Service = require('../services/bitrix24');
+const { ServiceContainer } = require('../services/service-container');
 
-const bitrix24Service = new Bitrix24Service();
+const container = ServiceContainer.getInstance();
+const bitrix24Service = container.getBitrix24Service();
 
 /**
  * POST / - Bitrix24 app installation handler

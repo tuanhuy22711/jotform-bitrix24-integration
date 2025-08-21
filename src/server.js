@@ -100,3 +100,9 @@ class Server {
 }
 
 module.exports = Server;
+
+// Auto-start server when this file is run directly
+if (require.main === module) {
+  const server = new Server();
+  server.start();
+}
