@@ -2034,3 +2034,49 @@ Error: Environment variable BITRIX24_REST_URL is not set
 2025-08-22 11:56:52 [INFO]: Lead created successfully in Bitrix24 | {"leadId":19,"submissionId":"6316478100213248080"}
 2025-08-22 11:56:52 [INFO]: Lead created successfully | {"submissionId":"6316478100213248080","leadId":19,"duration":920}
 2025-08-22 11:56:52 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":200,"duration":932,"ip":"::ffff:127.0.0.1"}
+2025-08-22 13:40:24 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::ffff:127.0.0.1"}
+2025-08-22 13:40:24 [INFO]: Jotform webhook received | {"submissionID":"6316540220217240084","hasRawRequest":true,"ip":"::ffff:127.0.0.1"}
+2025-08-22 13:40:24 [INFO]: Contact data parsed | {"submissionId":"6316540220217240084","fullName":"Huy Tran","email":"tuanhuy227@gmail.com","phone":"(097) 828-1798"}
+2025-08-22 13:40:24 [INFO]: 📖 Token loaded from database | {"id":3,"domain":"b24-7woulk.bitrix24.vn","method":"oauth2","expiresAt":"2025-08-23T15:11:00.896Z","isExpired":false}
+2025-08-22 13:40:24 [INFO]: 🔑 Using OAuth2 token for lead creation | {"submissionId":"6316540220217240084","domain":"b24-7woulk.bitrix24.vn"}
+2025-08-22 13:40:24 [INFO]: Creating Bitrix24 lead with OAuth2 | {"submissionId":"6316540220217240084","leadTitle":"Jotform Lead: Huy Tran","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-22 13:40:24 [INFO]: 🔄 Calling Bitrix24 API (attempt 1) | {"method":"crm.lead.add","hasParams":true}
+2025-08-22 13:40:24 [INFO]: 📖 Token loaded from database | {"id":3,"domain":"b24-7woulk.bitrix24.vn","method":"oauth2","expiresAt":"2025-08-23T15:11:00.896Z","isExpired":false}
+2025-08-22 13:40:25 [ERROR]: HTTP Response Error Request failed with status code 401 | {"status":401,"url":"https://b24-7woulk.bitrix24.vn/rest/crm.lead.add","data":{"error":"expired_token","error_description":"The access token provided has expired."}}
+2025-08-22 13:40:25 [ERROR]: POST request failed | {"url":"https://b24-7woulk.bitrix24.vn/rest/crm.lead.add","error":"Request failed with status code 401"}
+2025-08-22 13:40:25 [ERROR]: ❌ Bitrix24 API call failed (attempt 1) | {"method":"crm.lead.add","error":"Request failed with status code 401","response":{"error":"expired_token","error_description":"The access token provided has expired."},"status":401}
+2025-08-22 13:40:25 [ERROR]: Error creating Bitrix24 lead | {"error":"Bitrix24 API call failed: Request failed with status code 401","submissionId":"6316540220217240084"}
+2025-08-22 13:40:25 [ERROR]: Failed to create lead | {"submissionId":"6316540220217240084","error":"Bitrix24 API call failed: Request failed with status code 401","duration":1163}
+2025-08-22 13:40:25 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":1201,"ip":"::ffff:127.0.0.1"}
+2025-08-22 13:41:15 [INFO]: Request received | {"method":"POST","url":"/webhook/jotform","ip":"::ffff:127.0.0.1"}
+2025-08-22 13:41:15 [INFO]: Jotform webhook received | {"submissionID":"6316540740214693774","hasRawRequest":true,"ip":"::ffff:127.0.0.1"}
+2025-08-22 13:41:15 [INFO]: Contact data parsed | {"submissionId":"6316540740214693774","fullName":"Huy211 Tran","email":"tuanhuy227@gmail.com","phone":"(097) 828-1798"}
+2025-08-22 13:41:15 [INFO]: 📖 Token loaded from database | {"id":3,"domain":"b24-7woulk.bitrix24.vn","method":"oauth2","expiresAt":"2025-08-23T15:11:00.896Z","isExpired":false}
+2025-08-22 13:41:15 [INFO]: 🔑 Using OAuth2 token for lead creation | {"submissionId":"6316540740214693774","domain":"b24-7woulk.bitrix24.vn"}
+2025-08-22 13:41:15 [INFO]: Creating Bitrix24 lead with OAuth2 | {"submissionId":"6316540740214693774","leadTitle":"Jotform Lead: Huy211 Tran","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-22 13:41:15 [INFO]: 🔄 Calling Bitrix24 API (attempt 1) | {"method":"crm.lead.add","hasParams":true}
+2025-08-22 13:41:15 [INFO]: 📖 Token loaded from database | {"id":3,"domain":"b24-7woulk.bitrix24.vn","method":"oauth2","expiresAt":"2025-08-23T15:11:00.896Z","isExpired":false}
+2025-08-22 13:41:16 [ERROR]: HTTP Response Error Request failed with status code 401 | {"status":401,"url":"https://b24-7woulk.bitrix24.vn/rest/crm.lead.add","data":{"error":"expired_token","error_description":"The access token provided has expired."}}
+2025-08-22 13:41:16 [ERROR]: POST request failed | {"url":"https://b24-7woulk.bitrix24.vn/rest/crm.lead.add","error":"Request failed with status code 401"}
+2025-08-22 13:41:16 [ERROR]: ❌ Bitrix24 API call failed (attempt 1) | {"method":"crm.lead.add","error":"Request failed with status code 401","response":{"error":"expired_token","error_description":"The access token provided has expired."},"status":401}
+2025-08-22 13:41:16 [ERROR]: Error creating Bitrix24 lead | {"error":"Bitrix24 API call failed: Request failed with status code 401","submissionId":"6316540740214693774"}
+2025-08-22 13:41:16 [ERROR]: Failed to create lead | {"submissionId":"6316540740214693774","error":"Bitrix24 API call failed: Request failed with status code 401","duration":460}
+2025-08-22 13:41:16 [INFO]: Request completed | {"method":"POST","url":"/jotform","statusCode":500,"duration":467,"ip":"::ffff:127.0.0.1"}
+2025-08-22 13:43:16 [INFO]: Request received | {"method":"POST","url":"/webhook/test","ip":"::1","userAgent":"curl/8.6.0"}
+2025-08-22 13:43:16 [INFO]: Test webhook called
+2025-08-22 13:43:16 [INFO]: 📖 Token loaded from database | {"id":3,"domain":"b24-7woulk.bitrix24.vn","method":"oauth2","expiresAt":"2025-08-23T15:11:00.896Z","isExpired":false}
+2025-08-22 13:43:16 [INFO]: 🔑 Using OAuth2 token for lead creation | {"submissionId":"test_1755844996167","domain":"b24-7woulk.bitrix24.vn"}
+2025-08-22 13:43:16 [INFO]: Creating Bitrix24 lead with OAuth2 | {"submissionId":"test_1755844996167","leadTitle":"Jotform Lead: Test User","hasName":true,"hasEmail":true,"hasPhone":true}
+2025-08-22 13:43:16 [INFO]: 🔄 Calling Bitrix24 API (attempt 1) | {"method":"crm.lead.add","hasParams":true}
+2025-08-22 13:43:16 [INFO]: 📖 Token loaded from database | {"id":3,"domain":"b24-7woulk.bitrix24.vn","method":"oauth2","expiresAt":"2025-08-23T15:11:00.896Z","isExpired":false}
+2025-08-22 13:43:16 [ERROR]: HTTP Response Error Request failed with status code 401 | {"status":401,"url":"https://b24-7woulk.bitrix24.vn/rest/crm.lead.add","data":{"error":"expired_token","error_description":"The access token provided has expired."}}
+2025-08-22 13:43:16 [ERROR]: POST request failed | {"url":"https://b24-7woulk.bitrix24.vn/rest/crm.lead.add","error":"Request failed with status code 401"}
+2025-08-22 13:43:16 [ERROR]: ❌ Bitrix24 API call failed (attempt 1) | {"method":"crm.lead.add","error":"Request failed with status code 401","response":{"error":"expired_token","error_description":"The access token provided has expired."},"status":401}
+2025-08-22 13:43:16 [ERROR]: Error creating Bitrix24 lead | {"error":"Bitrix24 API call failed: Request failed with status code 401","submissionId":"test_1755844996167"}
+2025-08-22 13:43:16 [INFO]: Request completed | {"method":"POST","url":"/test","statusCode":500,"duration":445,"ip":"::1"}
+2025-08-22 13:46:26 [INFO]: Server running on port 3000
+2025-08-22 13:46:26 [INFO]: Environment:
+2025-08-22 13:46:42 [INFO]: Server running on port 3000
+2025-08-22 13:46:42 [INFO]: Environment:
+2025-08-22 13:46:50 [INFO]: Server running on port 3000
+2025-08-22 13:46:50 [INFO]: Environment:
