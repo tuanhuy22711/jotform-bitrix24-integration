@@ -6,8 +6,18 @@ const crypto = require('crypto');
 class WebhookController {
   constructor() {
     this.jotformService = new JotformService();
-    const container = ServiceContainer.getInstance();
-    this.bitrix24Service = container.getBitrix24Service();
+    this.container = null;
+    this.bitrix24Service = null;
+  }
+
+  // Initialize services asynchronously
+  async initializeServices() {
+    if (!this.container) {
+      this.container = ServiceContainer.getInstance();
+      await this.container.initializeServices();
+      this.bitrix24Service = await this.container.getBitrix24Service();
+    }
+    return { container: this.container, bitrix24Service: this.bitrix24Service };
   }
 
   /**
@@ -19,6 +29,9 @@ class WebhookController {
     const startTime = Date.now();
     
     try {
+      // Ensure services are initialized
+      await this.initializeServices();
+
       // Log chi tiết toàn bộ request
       logger.info('=== WEBHOOK REQUEST DEBUG ===', {
         method: req.method,
@@ -154,6 +167,9 @@ class WebhookController {
    */
   async processContactInBitrix24(contactData) {
     try {
+      // Ensure services are initialized
+      await this.initializeServices();
+
       let leadId = null;
 
       // Tạo lead trong Bitrix24 (đơn giản và hiệu quả)
@@ -267,6 +283,9 @@ class WebhookController {
    */
   async healthCheck(req, res) {
     try {
+      // Ensure services are initialized
+      await this.initializeServices();
+
       logger.info('Health check requested');
       
       // Test both services
@@ -310,6 +329,9 @@ class WebhookController {
    */
   async testWebhook(req, res) {
     try {
+      // Ensure services are initialized
+      await this.initializeServices();
+
       logger.info('=== TEST WEBHOOK DEBUG ===', { 
         body: req.body,
         headers: req.headers,

@@ -3,15 +3,29 @@ const router = express.Router();
 const logger = require('../utils/logger');
 const { ServiceContainer } = require('../services/service-container');
 
-const container = ServiceContainer.getInstance();
-const bitrix24Service = container.getBitrix24Service();
+let container;
+let bitrix24Service;
+
+// Initialize services asynchronously
+async function initializeServices() {
+  if (!container) {
+    container = ServiceContainer.getInstance();
+    await container.initializeServices();
+    bitrix24Service = await container.getBitrix24Service();
+  }
+  return { container, bitrix24Service };
+}
 
 /**
  * GET /oauth2/start - Start Complete OAuth 2.0 Authorization Protocol
  * User provides their Bitrix24 domain and gets redirected to authorization
  */
-router.get('/start', (req, res) => {
+router.get('/start', async (req, res) => {
   try {
+    // Ensure services are initialized
+    const services = await initializeServices();
+    bitrix24Service = services.bitrix24Service;
+
     const { domain } = req.query;
 
     if (!domain) {
@@ -71,8 +85,12 @@ router.get('/start', (req, res) => {
  * POST /oauth2/domain - Submit domain for OAuth2 authorization
  * Alternative to GET method for domain submission
  */
-router.post('/domain', (req, res) => {
+router.post('/domain', async (req, res) => {
   try {
+    // Ensure services are initialized
+    const services = await initializeServices();
+    bitrix24Service = services.bitrix24Service;
+
     const { domain } = req.body;
 
     if (!domain) {
@@ -111,23 +129,28 @@ router.post('/domain', (req, res) => {
 
     res.status(500).json({
       success: false,
-      error: 'Failed to process domain',
+      error: 'Failed to generate authorization URL',
       message: error.message
     });
   }
 });
 
 /**
- * GET /oauth2/callback - Handle OAuth2 callback from user's Bitrix24
- * This is where user gets redirected after authorization
+ * GET /oauth2/callback - Handle OAuth2 callback from Bitrix24
  */
 router.get('/callback', async (req, res) => {
   try {
+    // Ensure services are initialized
+    const services = await initializeServices();
+    bitrix24Service = services.bitrix24Service;
+
     const { code, state, domain, member_id, scope, server_domain, error } = req.query;
 
-    logger.info('🔄 COMPLETE OAUTH2 CALLBACK RECEIVED', {
+    logger.info('🔄 OAUTH2 CALLBACK RECEIVED - FULL DATA', {
       timestamp: new Date().toISOString(),
+      headers: req.headers,
       query: req.query,
+      fullQuery: JSON.stringify(req.query, null, 2),
       hasCode: !!code,
       hasState: !!state,
       domain,
@@ -143,159 +166,69 @@ router.get('/callback', async (req, res) => {
       logger.error('❌ OAUTH2 AUTHORIZATION DENIED', {
         error,
         errorDescription: req.query.error_description,
-        domain,
         fullQuery: req.query
       });
 
       return res.status(400).json({
         success: false,
         error: 'Authorization denied',
-        message: req.query.error_description || error,
-        domain: domain
+        message: req.query.error_description || error
       });
     }
 
     if (!code) {
       logger.error('❌ MISSING AUTHORIZATION CODE', {
-        query: req.query,
-        domain
+        query: req.query
       });
       
       return res.status(400).json({
         success: false,
         error: 'Missing authorization code',
-        message: 'No authorization code received from Bitrix24',
-        domain: domain
+        message: 'No authorization code received from Bitrix24'
       });
     }
 
-    // Exchange code for tokens using oauth.bitrix.info
-    logger.info('🔄 STARTING TOKEN EXCHANGE WITH OAUTH.BITRIX.INFO', {
+    // Exchange code for tokens
+    logger.info('🔄 STARTING TOKEN EXCHANGE', {
       code: code.substring(0, 20) + '...',
       domain,
-      state,
-      memberId: member_id
+      state
     });
 
-    const tokenResult = await bitrix24Service.handleOAuthCallback(code, domain);
+    const result = await bitrix24Service.exchangeCodeForToken(code, state);
 
-    logger.info('🎯 COMPLETE OAUTH2 TOKEN EXCHANGE RESULT', {
-      success: tokenResult.success,
-      hasAccessToken: !!tokenResult.accessToken,
-      hasRefreshToken: !!tokenResult.refreshToken,
-      expiresIn: tokenResult.expiresIn,
-      domain: tokenResult.domain,
-      memberId: tokenResult.memberId,
-      status: tokenResult.status,
-      scope: tokenResult.scope,
-      clientEndpoint: tokenResult.clientEndpoint,
-      serverEndpoint: tokenResult.serverEndpoint
-    });
-
-    if (tokenResult.success) {
-      logger.info('✅ COMPLETE OAUTH2 FLOW SUCCESSFUL', {
-        domain: tokenResult.domain,
-        memberId: tokenResult.memberId,
-        status: tokenResult.status,
-        hasTokens: !!(tokenResult.accessToken && tokenResult.refreshToken)
+    if (result.success) {
+      logger.info('✅ TOKEN EXCHANGE SUCCESSFUL', {
+        domain: result.domain,
+        memberId: result.memberId,
+        method: result.method
       });
 
-      // Success page
-      res.send(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Authorization Successful</title>
-          <meta charset="utf-8">
-          <style>
-            body { 
-              font-family: Arial, sans-serif; 
-              max-width: 600px; 
-              margin: 50px auto; 
-              padding: 20px;
-              background: #f5f5f5;
-            }
-            .container {
-              background: white;
-              padding: 30px;
-              border-radius: 8px;
-              box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-              text-align: center;
-            }
-            .success {
-              color: #28a745;
-              font-size: 48px;
-              margin-bottom: 20px;
-            }
-            .info {
-              margin: 15px 0;
-              padding: 10px;
-              background: #f8f9fa;
-              border-radius: 4px;
-            }
-            .token-info {
-              font-family: monospace;
-              font-size: 12px;
-              color: #666;
-              margin-top: 20px;
-              text-align: left;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="success">✅</div>
-            <h1>Authorization Successful!</h1>
-            <p>Your Jotform-Bitrix24 integration is now connected and ready to use.</p>
-            
-            <div class="info">
-              <strong>Domain:</strong> ${tokenResult.domain}
-            </div>
-            <div class="info">
-              <strong>Status:</strong> ${tokenResult.status}
-            </div>
-            <div class="info">
-              <strong>Scope:</strong> ${tokenResult.scope}
-            </div>
-            
-            <p>You can now:</p>
-            <ul style="text-align: left;">
-              <li>Configure Jotform webhooks to: <code>/webhook/jotform</code></li>
-              <li>Test API connection: <code>/api/test-token</code></li>
-              <li>Check status: <code>/api/status</code></li>
-            </ul>
-
-            ${process.env.NODE_ENV === 'development' ? `
-            <div class="token-info">
-              <strong>Debug Info (Development Only):</strong><br>
-              Access Token: ${tokenResult.accessToken?.substring(0, 30)}...<br>
-              Expires In: ${tokenResult.expiresIn} seconds<br>
-              Client Endpoint: ${tokenResult.clientEndpoint}
-            </div>
-            ` : ''}
-          </div>
-        </body>
-        </html>
-      `);
-
+      return res.json({
+        success: true,
+        message: 'OAuth2 authorization completed successfully',
+        data: {
+          domain: result.domain,
+          memberId: result.memberId,
+          method: result.method,
+          protocol: 'complete_oauth2'
+        }
+      });
     } else {
-      logger.error('❌ COMPLETE OAUTH2 TOKEN EXCHANGE FAILED', {
-        error: tokenResult.error,
-        details: tokenResult.details,
-        domain
+      logger.error('❌ TOKEN EXCHANGE FAILED', {
+        error: result.error,
+        details: result.details
       });
 
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
         error: 'Token exchange failed',
-        message: tokenResult.error,
-        details: tokenResult.details,
-        domain: domain
+        message: result.error
       });
     }
 
   } catch (error) {
-    logger.error('🚨 COMPLETE OAUTH2 CALLBACK ERROR', {
+    logger.error('❌ OAUTH2 CALLBACK ERROR', {
       error: error.message,
       stack: error.stack,
       query: req.query
@@ -314,31 +247,29 @@ router.get('/callback', async (req, res) => {
  */
 router.get('/status', async (req, res) => {
   try {
-    const connectionTest = await bitrix24Service.testConnection();
-    const hasAccessToken = !!bitrix24Service.getAccessToken();
-    
-    // Load token info from storage
-    const tokenStore = require('../utils/tokenStore');
-    const savedTokens = tokenStore.loadTokens();
+    // Ensure services are initialized
+    const services = await initializeServices();
+    bitrix24Service = services.bitrix24Service;
+
+    logger.info('📊 GETTING OAUTH2 STATUS');
+
+    const tokenStatus = await bitrix24Service.getTokenStatus();
+    const configStatus = {
+      hasClientId: !!bitrix24Service.clientId,
+      hasClientSecret: !!bitrix24Service.clientSecret,
+      hasDomain: !!bitrix24Service.domain,
+      hasRedirectUri: !!bitrix24Service.redirectUri
+    };
 
     res.json({
       success: true,
       data: {
-        protocol: 'complete_oauth2',
-        connected: connectionTest.success,
-        hasAccessToken: hasAccessToken,
-        connectionMessage: connectionTest.message,
-        user: connectionTest.user,
-        tokenInfo: savedTokens ? {
-          domain: savedTokens.domain,
-          expiresAt: savedTokens.expiresAt,
-          status: savedTokens.status,
-          hasRefreshToken: !!savedTokens.refreshToken,
-          scope: savedTokens.scope
-        } : null,
-        timestamp: new Date().toISOString()
-      },
-      message: 'Complete OAuth2 status retrieved successfully'
+        oauth2: 'available',
+        timestamp: new Date().toISOString(),
+        token: tokenStatus,
+        config: configStatus,
+        protocol: 'complete_oauth2'
+      }
     });
 
   } catch (error) {

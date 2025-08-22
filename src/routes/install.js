@@ -4,8 +4,107 @@ const logger = require('../utils/logger');
 const config = require('../config/config');
 const { ServiceContainer } = require('../services/service-container');
 
-const container = ServiceContainer.getInstance();
-const bitrix24Service = container.getBitrix24Service();
+let container;
+let bitrix24Service;
+
+// Initialize services asynchronously
+async function initializeServices() {
+  if (!container) {
+    container = ServiceContainer.getInstance();
+    await container.initializeServices();
+    bitrix24Service = await container.getBitrix24Service();
+  }
+  return { container, bitrix24Service };
+}
+
+/**
+ * POST /install - Handle ONAPPINSTALL event callback
+ * This is the recommended method for getting full OAuth2 tokens
+ */
+router.post('/install', async (req, res) => {
+  try {
+    // Ensure services are initialized
+    const services = await initializeServices();
+    bitrix24Service = services.bitrix24Service;
+
+    const body = req.body;
+    
+    logger.info('🎯 ONAPPINSTALL EVENT RECEIVED', {
+      event: body.event,
+      hasAuthData: !!(body.auth && body.auth.access_token),
+      timestamp: body.ts,
+      data: body.data,
+      fullBody: JSON.stringify(body, null, 2)
+    });
+
+    // Check if this is an ONAPPINSTALL event
+    if (body.event === 'ONAPPINSTALL' && body.auth) {
+      logger.info('🔄 PROCESSING ONAPPINSTALL EVENT', {
+        hasAccessToken: !!body.auth.access_token,
+        hasRefreshToken: !!body.auth.refresh_token,
+        domain: body.auth.domain,
+        scope: body.auth.scope,
+        expiresIn: body.auth.expires_in,
+        status: body.auth.status
+      });
+
+      // Process the ONAPPINSTALL event
+      const result = await bitrix24Service.processInstallation(body);
+
+      if (result.hasToken) {
+        logger.info('✅ ONAPPINSTALL EVENT PROCESSED SUCCESSFULLY', {
+          domain: result.domain,
+          memberId: result.memberId,
+          method: result.method,
+          scope: result.scope
+        });
+
+        return res.json({
+          success: true,
+          message: 'Application installed successfully via ONAPPINSTALL event',
+          data: {
+            domain: result.domain,
+            memberId: result.memberId,
+            method: result.method,
+            scope: result.scope,
+            expiresAt: result.expiresAt
+          }
+        });
+      } else {
+        logger.error('❌ FAILED TO PROCESS ONAPPINSTALL EVENT', {
+          error: 'No token generated',
+          authData: body.auth
+        });
+
+        return res.status(400).json({
+          success: false,
+          error: 'Failed to process ONAPPINSTALL event',
+          message: 'No token generated'
+        });
+      }
+    }
+
+    // If not ONAPPINSTALL event, return error
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid event type',
+      message: 'Expected ONAPPINSTALL event'
+    });
+
+  } catch (error) {
+    logger.error('ONAPPINSTALL event processing error', {
+      error: error.message,
+      stack: error.stack,
+      body: req.body
+    });
+
+    res.status(500).json({
+      success: false,
+      error: 'ONAPPINSTALL event processing failed',
+      message: error.message
+    });
+  }
+});
 
 /**
  * POST / - Bitrix24 app installation handler
@@ -13,6 +112,10 @@ const bitrix24Service = container.getBitrix24Service();
  */
 router.post('/', async (req, res) => {
   try {
+    // Ensure services are initialized
+    const services = await initializeServices();
+    bitrix24Service = services.bitrix24Service;
+
     const { DOMAIN, PROTOCOL, LANG, APP_SID } = req.query;
     const body = req.body;
     console.log(req.body);
@@ -50,9 +153,9 @@ router.post('/', async (req, res) => {
         fullAuthObject: body.auth
       });
       
-      const result = bitrix24Service.processInstallationAuth(body.auth);
+      const result = await bitrix24Service.processInstallation(body.auth);
       
-      if (result.success) {
+      if (result.hasToken) {
         logger.info('✅ INSTALLATION EVENT PROCESSED SUCCESSFULLY', {
           domain: result.domain,
           memberId: result.memberId,
@@ -79,14 +182,14 @@ router.post('/', async (req, res) => {
         });
       } else {
         logger.error('❌ FAILED TO PROCESS INSTALLATION EVENT', {
-          error: result.error,
+          error: 'No token generated',
           authData: body.auth
         });
         
         return res.status(400).json({
           success: false,
           error: 'Failed to process installation event',
-          message: result.error
+          message: 'No token generated'
         });
       }
     }
@@ -113,12 +216,13 @@ router.post('/', async (req, res) => {
         member_id: body.member_id,
         status: body.status,
         client_endpoint: `https://${DOMAIN}/rest/`,
-        server_endpoint: 'https://oauth.bitrix.info/rest/'
+        server_endpoint: 'https://oauth.bitrix.info/rest/',
+        method: 'simplified_auth'
       };
 
-      const result = bitrix24Service.processInstallationAuth(authData);
+      const result = await bitrix24Service.processInstallation(authData);
       
-      if (result.success) {
+      if (result.hasToken) {
         logger.info('✅ SIMPLIFIED AUTH PROCESSED SUCCESSFULLY', {
           domain: result.domain,
           memberId: result.memberId,
@@ -143,14 +247,14 @@ router.post('/', async (req, res) => {
         });
       } else {
         logger.error('❌ FAILED TO PROCESS SIMPLIFIED AUTH', {
-          error: result.error,
+          error: 'No token generated',
           authData: authData
         });
         
         return res.status(400).json({
           success: false,
           error: 'Failed to process simplified auth',
-          message: result.error
+          message: 'No token generated'
         });
       }
     }
@@ -284,8 +388,19 @@ router.get('/', (req, res) => {
 
           <div class="step">
             <h3>🔐 Bước tiếp theo: Ủy quyền</h3>
-            <p>Click vào nút bên dưới để ủy quyền cho ứng dụng truy cập vào Bitrix24 CRM:</p>
-            <a href="/oauth/authorize?domain=${DOMAIN}" class="button">Ủy quyền ngay</a>
+            <p>Chọn một trong hai phương thức ủy quyền:</p>
+            
+            <div style="margin: 15px 0; padding: 15px; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 4px;">
+              <h4>📋 Phương thức 1: OAuth 2.0 (Khuyến nghị)</h4>
+              <p>Phương thức tiêu chuẩn với quyền truy cập đầy đủ vào CRM:</p>
+              <a href="/oauth/authorize?domain=${DOMAIN}" class="button">OAuth 2.0 Authorization</a>
+            </div>
+            
+            <div style="margin: 15px 0; padding: 15px; background: #f3e5f5; border-left: 4px solid #9c27b0; border-radius: 4px;">
+              <h4>⚡ Phương thức 2: Simplified Auth (Đã cài đặt)</h4>
+              <p>Phương thức đã được cài đặt tự động, có thể có giới hạn về quyền truy cập.</p>
+              <p style="color: #666; font-size: 14px;">✅ Đã hoàn thành với AUTH_ID token</p>
+            </div>
           </div>
 
           <div class="step">

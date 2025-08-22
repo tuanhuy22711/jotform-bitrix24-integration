@@ -10,7 +10,7 @@ const Bitrix24NewService = require('./bitrix24-new.service');
 class ServiceContainer {
   constructor() {
     this.services = new Map();
-    this.initializeServices();
+    this.initialized = false;
   }
 
   static getInstance() {
@@ -20,7 +20,11 @@ class ServiceContainer {
     return ServiceContainer.instance;
   }
 
-  initializeServices() {
+  async initializeServices() {
+    if (this.initialized) {
+      return;
+    }
+
     try {
       // Initialize services in dependency order
       const configService = new ConfigService();
@@ -30,6 +34,8 @@ class ServiceContainer {
       this.services.set('HttpService', httpService);
 
       const databaseService = new DatabaseService();
+      // Wait for database initialization
+      await databaseService.initDatabase();
       this.services.set('DatabaseService', databaseService);
 
       const bitrix24Service = new Bitrix24NewService(
@@ -39,6 +45,7 @@ class ServiceContainer {
       );
       this.services.set('Bitrix24NewService', bitrix24Service);
 
+      this.initialized = true;
       console.log('✅ Service container initialized successfully');
     } catch (error) {
       console.error('❌ Failed to initialize service container:', error.message);
@@ -46,7 +53,11 @@ class ServiceContainer {
     }
   }
 
-  get(serviceName) {
+  async get(serviceName) {
+    if (!this.initialized) {
+      await this.initializeServices();
+    }
+    
     const service = this.services.get(serviceName);
     if (!service) {
       throw new Error(`Service ${serviceName} not found in container`);
@@ -65,29 +76,29 @@ class ServiceContainer {
   /**
    * Get Bitrix24 service instance
    */
-  getBitrix24Service() {
-    return this.get('Bitrix24NewService');
+  async getBitrix24Service() {
+    return await this.get('Bitrix24NewService');
   }
 
   /**
    * Get Config service instance
    */
-  getConfigService() {
-    return this.get('ConfigService');
+  async getConfigService() {
+    return await this.get('ConfigService');
   }
 
   /**
    * Get Database service instance
    */
-  getDatabaseService() {
-    return this.get('DatabaseService');
+  async getDatabaseService() {
+    return await this.get('DatabaseService');
   }
 
   /**
    * Get HTTP service instance
    */
-  getHttpService() {
-    return this.get('HttpService');
+  async getHttpService() {
+    return await this.get('HttpService');
   }
 }
 

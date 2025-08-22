@@ -5,8 +5,19 @@ const { ServiceContainer } = require('../services/service-container');
 
 const router = express.Router();
 const upload = multer(); // For parsing multipart/form-data
-const container = ServiceContainer.getInstance();
-const bitrix24Service = container.getBitrix24Service();
+
+let container;
+let bitrix24Service;
+
+// Initialize services asynchronously
+async function initializeServices() {
+  if (!container) {
+    container = ServiceContainer.getInstance();
+    await container.initializeServices();
+    bitrix24Service = await container.getBitrix24Service();
+  }
+  return { container, bitrix24Service };
+}
 
 /**
  * Parse Jotform data from webhook
@@ -58,6 +69,10 @@ router.post('/jotform', upload.none(), async (req, res) => {
   const startTime = Date.now();
   
   try {
+    // Ensure services are initialized
+    const services = await initializeServices();
+    bitrix24Service = services.bitrix24Service;
+
     logger.info('Jotform webhook received', {
       submissionID: req.body.submissionID,
       hasRawRequest: !!req.body.rawRequest,
@@ -160,6 +175,10 @@ router.post('/jotform', upload.none(), async (req, res) => {
  */
 router.get('/test', async (req, res) => {
   try {
+    // Ensure services are initialized
+    const services = await initializeServices();
+    bitrix24Service = services.bitrix24Service;
+
     logger.info('Testing Bitrix24 connection');
 
     const result = await bitrix24Service.testConnection();
@@ -194,6 +213,10 @@ router.get('/test', async (req, res) => {
  */
 router.post('/test', async (req, res) => {
   try {
+    // Ensure services are initialized
+    const services = await initializeServices();
+    bitrix24Service = services.bitrix24Service;
+
     logger.info('Test webhook called');
 
     // Tạo test data
@@ -214,7 +237,7 @@ router.post('/test', async (req, res) => {
         message: 'Test webhook processed successfully',
         data: {
           testContactData,
-          leadId: result.leadId
+          leadId: result.leadId || result.contactId
         }
       });
     } else {

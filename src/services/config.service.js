@@ -66,8 +66,8 @@ class ConfigService {
       clientSecret: this.get('BITRIX24_CLIENT_SECRET'),
       domain: this.get('BITRIX24_DOMAIN'),
       redirectUri: this.get('BITRIX24_REDIRECT_URI'),
-      restUrl: this.get('BITRIX24_REST_URL'),
-      webhookUrl: this.get('BITRIX24_WEBHOOK_URL'),
+      restUrl: this.get('BITRIX24_REST_URL', null), // Make optional
+      webhookUrl: this.get('BITRIX24_WEBHOOK_URL', null), // Make optional
       apiTimeout: this.get('BITRIX24_API_TIMEOUT', 10000),
       retryAttempts: this.get('BITRIX24_API_RETRY_ATTEMPTS', 3),
       retryDelay: this.get('BITRIX24_API_RETRY_DELAY', 1000)
